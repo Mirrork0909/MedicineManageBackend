@@ -10,13 +10,22 @@ namespace MedicineManageProject.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+
+        /// <summary>
+        /// 获取全部
+        /// </summary>
+        /// <returns></returns>
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
             return new string[] { "value1", "value2" };
         }
-
+        /// <summary>
+        /// 获取部分
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
