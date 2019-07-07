@@ -13,5 +13,6 @@ namespace MedicineManageProject.Model
         public Decimal DISCOUNT_PRICE { get; set; }
         public DateTime START_TIME { get; set; }
         public DateTime END_TIME { get; set; }
+        public String CONTEXT { get; set; }
     }
 }
