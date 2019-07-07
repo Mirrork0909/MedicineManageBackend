@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SqlSugar;
+using MedicineManageProject.Model;
 
 namespace MedicineManageProject.DB
 {
@@ -27,6 +28,12 @@ namespace MedicineManageProject.DB
             };
         }
 
-       
+        public SimpleClient<MEDICINE_INFORMATION> medicine_information_DB { get { return new SimpleClient<MEDICINE_INFORMATION>(Db); } }
+        public SimpleClient<MEDICINE_INSTANCE> medicine_instance_DB { get { return new SimpleClient<MEDICINE_INSTANCE>(Db); } }
+        public SimpleClient<MEDICINE_STOCK> medicine_stock_DB { get { return new SimpleClient<MEDICINE_STOCK>(Db); } }
+        public SimpleClient<DISCOUNT> discount_DB { get { return new SimpleClient<DISCOUNT>(Db); } }
+        public SimpleClient<SET_DISCOUNT> setDiscount_DB { get { return new SimpleClient<SET_DISCOUNT>(Db); } }
+        public SimpleClient<STAFF> staff_DB { get { return new SimpleClient<STAFF>(Db); } }
+        public SimpleClient<EXPIRED_MEDICINE_PROCESS> expired_medicine_process_DB { get { return new SimpleClient<EXPIRED_MEDICINE_PROCESS>(Db); } }
     }
 }

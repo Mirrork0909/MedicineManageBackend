@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MedicineManageProject.Model
+namespace MedicineManageProject.DTO
 {
-    public class MedicineInformation
+    public class MEDICINE_INSTANCE
     {
+
     }
 }
