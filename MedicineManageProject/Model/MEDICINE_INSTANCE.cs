@@ -17,5 +17,6 @@ namespace MedicineManageProject.Model
         public Decimal SUPPLIER_ID { get; set; }
         public DateTime PRODUCTION_DATE { get; set; }
         public DateTime VALIDITY_DATE { get; set; }
+        public String MEDICINE_IMAGE { set; get; }
     }
 }
