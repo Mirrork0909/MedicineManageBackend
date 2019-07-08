@@ -19,17 +19,17 @@ namespace MedicineManageProject.Controllers
         {
             if(medicine == null)
             {
-                return BadRequest(new JsonCreate() { message="接收对象为空",data=false});
+                return BadRequest(new JsonCreate() { message=Utils.ConstMessage.BAD_REQUEST,data=false});
             }
             MedicineManager medicineManager = new MedicineManager();
             bool judge = medicineManager.insertNewMedicine(medicine);
             if (judge)
             {
-                return Ok(new JsonCreate() { message = "插入成功", data = true });
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.INSERT_SUCCESS, data = true });
             }
             else
             {
-                return Conflict(new JsonCreate() { message = "插入失败", data = false });
+                return Conflict(new JsonCreate() { message = Utils.ConstMessage.CONFILICT, data = false });
             }
         }
 
