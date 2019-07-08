@@ -8,6 +8,15 @@ namespace MedicineManageProject.DB.Services
 {
     public class StaffManager:DBContext
     {
+        public void insertStaff(STAFF staff)
+        {
+            staff.SIGN_DATE = DateTime.Now;
+            Db.Insertable(staff).ExecuteCommand();
+        }
+        public List<STAFF> getAllStaffsInformation()
+        {
+            return Db.Queryable<STAFF>().ToList();
+        }
         public STAFF getStaffInformation(String id)
         {
             return Db.Queryable<STAFF>().InSingle(id);
@@ -17,7 +26,28 @@ namespace MedicineManageProject.DB.Services
         {
             return Db.Queryable<STAFF>().Where(it => it.NAME == name).ToList();
         }
-
+        public bool resetStaffPassword(String id,String password)
+        {
+            STAFF _staff = Db.Queryable<STAFF>().InSingle(id);
+            if (_staff != null)
+            {
+                _staff.PASSWORD = password;
+                Db.Updateable(_staff);
+                STAFF _updatedStaff = Db.Queryable<STAFF>().InSingle(id);
+                if (_updatedStaff.PASSWORD == password)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
         public bool resetStaffInformation(String id, String name, String phone)
         {
             STAFF _staff = Db.Queryable<STAFF>().InSingle(id);
