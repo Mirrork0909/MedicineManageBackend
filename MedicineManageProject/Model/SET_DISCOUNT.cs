@@ -9,7 +9,7 @@ namespace MedicineManageProject.Model
     public class SET_DISCOUNT
     {
         [SugarColumn(IsPrimaryKey = true)]
-        public Decimal DISCOUNT_ID { get; set; }
+        public int DISCOUNT_ID { get; set; }
         [SugarColumn(IsPrimaryKey = true)]
         public String MEDICINE_ID { get; set; }
         [SugarColumn(IsPrimaryKey = true)]
