@@ -17,6 +17,6 @@ namespace MedicineManageProject.Model
         public String MEDICINE_APPLICABILITY { set; get; }
         public String MEDICINE_USAGE { set; get; }
         public String MEDICINE_ATTENTION { set; get; }
-        public String MEDICINE_IMAGE { set; get; }
+        
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MedicineManageProject.DTO;
 using MedicineManageProject.DB.Services;
+using MedicineManageProject.Utils;
 
 namespace MedicineManageProject.Controllers
 {
@@ -14,15 +15,22 @@ namespace MedicineManageProject.Controllers
     public class MedicineController : ControllerBase
     {
         [HttpPost("insert")]
-        public IActionResult insertNewMedicineInfo([FromForm] MedicineInformation medicine)
+        public IActionResult insertNewMedicineInfo([FromForm] MedicineDTO medicine)
         {
             if(medicine == null)
             {
-                return BadRequest();
+                return BadRequest(new JsonCreate() { message=Utils.ConstMessage.BAD_REQUEST,data=false});
             }
             MedicineManager medicineManager = new MedicineManager();
-            medicineManager.insertNewMedicine(medicine);
-            return Ok("成功了");
+            bool judge = medicineManager.insertNewMedicine(medicine);
+            if (judge)
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.INSERT_SUCCESS, data = true });
+            }
+            else
+            {
+                return Conflict(new JsonCreate() { message = Utils.ConstMessage.CONFILICT, data = false });
+            }
         }
 
 
