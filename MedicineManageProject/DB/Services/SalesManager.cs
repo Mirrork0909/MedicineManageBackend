@@ -33,7 +33,7 @@ namespace MedicineManageProject.DB.Services
             //).ToShortDateString().ToString()
             // var temp = Db.SqlQueryable<dynamic>("select to_char(SALE_DATE,'yyyymm')as time ,sum(SALE_PRICE) as amount  from SALE_RECORD group by to_char(SALE_DATE,'yyyymm')").ToList();
             var temp = Db.Queryable<SALE_RECORD>().GroupBy(it => SqlFunc.DateValue(it.SALE_DATE, DateType.Year)).GroupBy(it=>SqlFunc.DateValue(it.SALE_DATE, DateType.Month));
-            temp.Select(it => new {time = SqlFunc.DateValue(it.SALE_DATE, DateType.Year) ,amount = SqlFunc.AggregateSum(it.SALE_PRICE) }).ToList(); 
+            temp.Select(it => new {time = SqlFunc.DateValue(it.SALE_DATE, DateType.Month) ,amount = SqlFunc.AggregateSum(it.SALE_PRICE) }).ToList(); 
             List<SalesDataDTO> salesDatas = new List<SalesDataDTO>();
           
            

@@ -21,7 +21,7 @@ namespace MedicineManageProject.Controllers
             return Ok(addDataToResult(ConstMessage.GET_SUCCESS,salesData));
         }
         [HttpGet("records")]
-        public IActionResult getSaleRecords()
+        public IActionResult getTenSaleRecords()
         {
             SalesManager salesManager = new SalesManager();
             List < SaleInformationDTO > saleRecords = salesManager.getSaleRecords();
