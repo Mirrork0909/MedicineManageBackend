@@ -21,6 +21,7 @@ namespace MedicineManageProject.Controllers
             customerManager.insertCustomer(customer);
             return Ok(new JsonCreate());
         }
+
         [HttpPost("insert/staff")]
         public IActionResult insertNewStaff([FromForm]STAFF staff)
         {
@@ -28,27 +29,17 @@ namespace MedicineManageProject.Controllers
             staffManager.insertStaff(staff);
             return Ok(new JsonCreate());
         }
+
         [HttpGet("get/all")]
         public IActionResult getAllUserInformation()
-        {
-            JsonCreate resultJson = new JsonCreate();
+        { 
             StaffManager staffManager = new StaffManager();
             CustomerManager customerManager = new CustomerManager();
             List<STAFF> staffs = staffManager.getAllStaffsInformation();
             List<CUSTOMER> customers = customerManager.getAllCustomersInformation();
-            List<UserInformationDTO> userList = new List<UserInformationDTO>();
-            if (staffs != null && staffs.Count > 0)
-            {
-                userList.AddRange(addIdentity(staffs, UserInformationDTO._STAFF));
-            }
-            if (customers != null && customers.Count > 0)
-            {
-                userList.AddRange(addIdentity(customers, UserInformationDTO._CUSTOMER));
-            }
-            resultJson.message = userList.Count.ToString();
-            resultJson.data = userList;
-            return Ok(resultJson);
+            return Ok(addDataToResult(staffs,customers));
         }
+
         [HttpGet("get/{name}")]
         public IActionResult getUserInformation(String name)
         {
@@ -57,6 +48,13 @@ namespace MedicineManageProject.Controllers
             CustomerManager customerManager = new CustomerManager();
             List<STAFF> staffs = staffManager.getStaffInformationByName(name);
             List<CUSTOMER> customers = customerManager.getCustomerInformationByName(name);
+            return Ok(addDataToResult(staffs,customers));
+        }
+
+        public JsonCreate addDataToResult(List<STAFF> staffs, List<CUSTOMER> customers)
+        {
+            JsonCreate resultJson = new JsonCreate();
+            UserInformationListDTO userInformationListDTOs = new UserInformationListDTO();
             List<UserInformationDTO> userList = new List<UserInformationDTO>();
             if (staffs != null && staffs.Count > 0)
             {
@@ -66,9 +64,11 @@ namespace MedicineManageProject.Controllers
             {
                 userList.AddRange(addIdentity(customers, UserInformationDTO._CUSTOMER));
             }
-            resultJson.message = userList.Count.ToString();
-            resultJson.data = userList;
-            return Ok(resultJson);
+            userInformationListDTOs._count = userList.Count;
+            userInformationListDTOs._userInformationDTOs = userList;
+            resultJson.message = userInformationListDTOs._count == 0 ? ConstMessage.NOT_FOUND : ConstMessage.GET_SUCCESS;
+            resultJson.data = userInformationListDTOs;
+            return resultJson;
         }
         public List<UserInformationDTO> addIdentity(List<CUSTOMER> users,String identity)
         {

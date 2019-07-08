@@ -28,11 +28,11 @@ namespace MedicineManageProject.DB.Services
         }
         public bool resetStaffPassword(String id,String password)
         {
-            STAFF _staff = Db.Queryable<STAFF>().InSingle(id);
-            if (_staff != null)
+            STAFF staff = Db.Queryable<STAFF>().InSingle(id);
+            if (staff != null)
             {
-                _staff.PASSWORD = password;
-                Db.Updateable(_staff);
+                staff.PASSWORD = password;
+                Db.Updateable(staff);
                 STAFF _updatedStaff = Db.Queryable<STAFF>().InSingle(id);
                 if (_updatedStaff.PASSWORD == password)
                 {
@@ -50,14 +50,14 @@ namespace MedicineManageProject.DB.Services
         }
         public bool resetStaffInformation(String id, String name, String phone)
         {
-            STAFF _staff = Db.Queryable<STAFF>().InSingle(id);
-            if (_staff != null)
+            STAFF staff = Db.Queryable<STAFF>().InSingle(id);
+            if (staff != null)
             {
-                _staff.NAME = name;
-                _staff.PHONE = phone;
-                Db.Updateable(_staff).ExecuteCommand();
-                STAFF _updatedStaff = Db.Queryable<STAFF>().InSingle(id);
-                if (_updatedStaff.NAME == name && _updatedStaff.PHONE == phone)
+                staff.NAME = name;
+                staff.PHONE = phone;
+                Db.Updateable(staff).ExecuteCommand();
+                STAFF updatedStaff = Db.Queryable<STAFF>().InSingle(id);
+                if (updatedStaff.NAME == name && updatedStaff.PHONE == phone)
                 {
                     return true;
                 }

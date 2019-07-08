@@ -15,46 +15,45 @@ namespace MedicineManageProject.Controllers
     public class StaffController:ControllerBase
     {
         [HttpPost("update/information")]
-        public IActionResult updateStaffInformation([FromForm] StaffInformaitonDTO _newStaffInformaiton)
+        public IActionResult updateStaffInformation([FromForm] StaffInformaitonDTO newStaffInformaiton)
         {
-            StaffManager _staffManager = new StaffManager();
-            bool _isSuccess = _staffManager.resetStaffInformation(_newStaffInformaiton._id, 
-                _newStaffInformaiton._name, _newStaffInformaiton._phone);
+            StaffManager staffManager = new StaffManager();
+            bool isSuccess = staffManager.resetStaffInformation(newStaffInformaiton._id, 
+                newStaffInformaiton._name, newStaffInformaiton._phone);
             JsonCreate jsonResult = new JsonCreate();
-            jsonResult.message = _isSuccess.ToString();
-            jsonResult.data = _isSuccess;
+            jsonResult.message = isSuccess ? ConstMessage.UPDATE_SUCCESS : ConstMessage.UPDATE_FAIL;
+            jsonResult.data = isSuccess;
             return Ok(jsonResult);
         }
         [HttpPost("update/password")]
-        public IActionResult updatePassword([FromForm]StaffInformaitonDTO _staff) 
+        public IActionResult updatePassword([FromForm]StaffInformaitonDTO staff) 
         {
-            StaffManager _staffManager = new StaffManager();
-            bool _isSuccess = _staffManager.resetStaffPassword(_staff._id, _staff._password);
-            JsonCreate _jsonResult = new JsonCreate();
-            _jsonResult.message = _isSuccess.ToString();
-            _jsonResult.data = _isSuccess;
-            return Ok(_jsonResult);
+            StaffManager staffManager = new StaffManager();
+            bool isSuccess = staffManager.resetStaffPassword(staff._id, staff._password);
+            JsonCreate jsonResult = new JsonCreate();
+            jsonResult.message = isSuccess ? ConstMessage.UPDATE_SUCCESS : ConstMessage.UPDATE_FAIL;
+            jsonResult.data = isSuccess;
+            return Ok(jsonResult);
         }
         [HttpGet("{id}")]
         public IActionResult getStaffInformation(String id)
         {
-            JsonCreate _jsonResult = new JsonCreate();
-            StaffManager _staffManager = new StaffManager();
-            STAFF _staff = _staffManager.getStaffInformation(id);
-            if (_staff != null)
+            JsonCreate jsonResult = new JsonCreate();
+            StaffManager staffManager = new StaffManager();
+            STAFF staff = staffManager.getStaffInformation(id);
+            if (staff != null)
             {
-                StaffInformaitonDTO _staffInformation = new StaffInformaitonDTO();
-                _staffInformation._name = _staff.NAME;
-                _staffInformation._phone = _staff.PHONE;
-                _jsonResult.data = _staffInformation;
-                return Ok(_jsonResult);
+                StaffInformaitonDTO staffInformation = new StaffInformaitonDTO();
+                staffInformation._name = staff.NAME;
+                staffInformation._phone = staff.PHONE;
+                jsonResult.data = staffInformation;
+                return Ok(jsonResult);
             }
             else
             {
-                _jsonResult.message = "不存在该信息";
-                return NotFound(_jsonResult);
+                jsonResult.message =ConstMessage.NOT_FOUND;
+                return NotFound(jsonResult);
             }
-            
         }
 
 
