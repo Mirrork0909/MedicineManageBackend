@@ -1,5 +1,6 @@
 ﻿using MedicineManageProject.DTO;
 using MedicineManageProject.Model;
+using MedicineManageProject.Utils;
 using SqlSugar;
 using System;
 using System.Collections.Generic;
@@ -28,15 +29,36 @@ namespace MedicineManageProject.DB.Services
             }
             return saleInformationDTO;
         }
-        public List<SalesDataDTO> getSalesAmountByMonth()
+        public List<SalesDataByMonthDTO> getSalesAmountByMonth()
         {
-            //).ToShortDateString().ToString()
-            // var temp = Db.SqlQueryable<dynamic>("select to_char(SALE_DATE,'yyyymm')as time ,sum(SALE_PRICE) as amount  from SALE_RECORD group by to_char(SALE_DATE,'yyyymm')").ToList();
-            var temp = Db.Queryable<SALE_RECORD>().GroupBy(it => SqlFunc.DateValue(it.SALE_DATE, DateType.Year)).GroupBy(it=>SqlFunc.DateValue(it.SALE_DATE, DateType.Month));
-            temp.Select(it => new {time = SqlFunc.DateValue(it.SALE_DATE, DateType.Month) ,amount = SqlFunc.AggregateSum(it.SALE_PRICE) }).ToList(); 
-            List<SalesDataDTO> salesDatas = new List<SalesDataDTO>();
-          
-           
+            //得到包含年，月，钱的列表
+            var list = Db.Queryable<SALE_RECORD>().
+                Select(it => new
+                {
+                    _year = it.SALE_DATE.Year,
+                    _month = it.SALE_DATE.Month,
+                    _amount = it.SALE_PRICE
+                }).ToList();
+            List<SalesDataByMonthDTO> salesDatas = new List<SalesDataByMonthDTO>();
+            foreach (var e in list)
+            {
+                SalesDataByMonthDTO sales = new SalesDataByMonthDTO { _year = e._year, _month = e._month, _amount = e._amount };
+                salesDatas.Add(sales);
+            }
+            //分组
+            for (int i = 0; i < salesDatas.Count; i++)
+            {
+                for (int j = i + 1; j < salesDatas.Count; j++)
+                {
+                    if (salesDatas[i]._year == salesDatas[j]._year && salesDatas[i]._month == salesDatas[j]._month)
+                    {
+                        salesDatas[i]._amount += salesDatas[j]._amount;
+                        salesDatas.RemoveAt(j);
+                        j--;
+                    }
+                }
+            }
+            salesDatas.Sort(new YMSortCompare());
             return salesDatas;
         }
 

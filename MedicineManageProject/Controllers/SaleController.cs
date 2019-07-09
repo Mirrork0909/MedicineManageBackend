@@ -17,7 +17,7 @@ namespace MedicineManageProject.Controllers
         public IActionResult getSaleAmountByMonth()
         {
             SalesManager salesManager = new SalesManager();
-            List<SalesDataDTO> salesData = salesManager.getSalesAmountByMonth();
+            List<SalesDataByMonthDTO> salesData = salesManager.getSalesAmountByMonth();
             return Ok(new JsonCreate { message = ConstMessage.GET_SUCCESS, data = salesData });
         }
         [HttpGet("records")]
