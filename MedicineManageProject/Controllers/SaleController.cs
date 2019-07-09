@@ -34,5 +34,45 @@ namespace MedicineManageProject.Controllers
                 return Ok(new JsonCreate { message = ConstMessage.NOT_FOUND, data = saleRecords });
             }
         }
+
+        [HttpPost("purchase")]
+        public IActionResult purchase(PurchaseDTO purchaseDTO)
+        {
+            SalesManager salesManager = new SalesManager();
+            bool judge = salesManager.purchase(purchaseDTO);
+            if (judge)
+            {
+                return Ok(addDataToResult(ConstMessage.INSERT_SUCCESS, judge));
+            }
+            else
+            {
+                return Conflict(addDataToResult(ConstMessage.CONFILICT, judge));
+            }
+        }
+
+        [HttpGet("all/records")]
+        public IActionResult getAllRecords()
+        {
+            SalesManager salesManager = new SalesManager();
+            object result = salesManager.getAllSaleRecords();
+            return Ok(addDataToResult(ConstMessage.GET_SUCCESS, result));
+        }
+
+       [HttpGet("records/{saleId}")]
+       public IActionResult getSaleItemFromOneRecord(Decimal saleId)
+        {
+            SalesManager salesManager = new SalesManager();
+            object result = salesManager.getAllOrderItemOfOneSaleInfo(saleId);
+            return Ok(addDataToResult(ConstMessage.GET_SUCCESS, result));
+        }
+
+
+        public JsonCreate addDataToResult(String message, object data)
+        {
+            JsonCreate jsonCreate = new JsonCreate();
+            jsonCreate.message = message;
+            jsonCreate.data = data;
+            return jsonCreate;
+        }
     }
 }

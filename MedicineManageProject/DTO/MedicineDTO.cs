@@ -19,7 +19,9 @@ namespace MedicineManageProject.DTO
         public String _batch_id { get; set; }
         public Decimal _purchase_price { get; set; }
         public Decimal _sale_price { get; set; }
+        public Decimal _discount_price { get; set; }
         public Decimal _supplier_id { get; set; }
+        public int _medicine_amount { get; set; }
         public DateTime _production_date { get; set; }
         public DateTime _validity_date { get; set; }
     }

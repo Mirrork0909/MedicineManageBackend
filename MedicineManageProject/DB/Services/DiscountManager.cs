@@ -52,8 +52,21 @@ namespace MedicineManageProject.DB.Services
             return dtos;
         }
 
+        public Decimal getDiscountPriceById(String medicineId,String batchId)
+        {
+            DateTime dateTime = DateTime.Now;
+            var discountPrice = Db.Queryable<DISCOUNT, SET_DISCOUNT>((d, sd) => d.DISCOUNT_ID == sd.DISCOUNT_ID)
+                .Where((d, sd) => sd.MEDICINE_ID == medicineId && sd.BATCH_ID == batchId 
+                && d.START_TIME < dateTime && d.END_TIME > dateTime)
+                .Select((d, sd) => d.DISCOUNT_PRICE).Single().ObjToDecimal();
+            return discountPrice;
+        }
+
+
+        //建立一条新的优惠信息
         public bool insertNewDiscount(DiscountDTO discountDTO)
         {
+            
             try
             {
                 Db.Ado.BeginTran();
@@ -64,13 +77,37 @@ namespace MedicineManageProject.DB.Services
                     END_TIME = discountDTO._end_time,
                     CONTEXT = discountDTO._context
                 };
-                SET_DISCOUNT setDiscount = new SET_DISCOUNT
+
+                var existId = Db.Queryable<SET_DISCOUNT>().Where(it => it.MEDICINE_ID == discountDTO._medicine_id
+                && it.BATCH_ID == discountDTO._batch_id).Select(it => it.DISCOUNT_ID).ToList();
+
+                var cId = 0;
+                if(existId.Count == 0)
                 {
-                    BATCH_ID = discountDTO._batch_id,
-                    MEDICINE_ID = discountDTO._medicine_id,
-                    DISCOUNT_ID = discountDTO._discount_id
-                };
-       
+                    Db.Insertable<DISCOUNT>(discount).
+                    IgnoreColumns(it => new { it.DISCOUNT_ID }).
+                    ExecuteCommandIdentityIntoEntity();
+
+
+                    var id = Db.Ado.SqlQuery<int>("select ISEQ$$_75598.currval from dual");
+                    cId = id[0];
+                    SET_DISCOUNT setDiscount = new SET_DISCOUNT
+                    {
+                        BATCH_ID = discountDTO._batch_id,
+                        MEDICINE_ID = discountDTO._medicine_id,
+                        DISCOUNT_ID = cId
+                    };
+                    Db.Insertable(setDiscount).ExecuteCommand();
+                }
+                else
+                {
+                    cId = existId[0];
+                    discount.DISCOUNT_ID = cId;
+                    Db.Updateable(discount).ExecuteCommand();
+                }
+
+                
+
                 Db.Ado.CommitTran();
                 return true;
 
@@ -80,5 +117,6 @@ namespace MedicineManageProject.DB.Services
                 return false;
             }
         }
+
     }
 }
