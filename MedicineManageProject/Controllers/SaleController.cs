@@ -73,5 +73,15 @@ namespace MedicineManageProject.Controllers
             List<MedicineSaleDataDTO> medicineSaleDatas  = salesManager.getAllMedicineSaleData();
             return Ok(new JsonCreate { message = ConstMessage.GET_SUCCESS, data = medicineSaleDatas });
         }
+        [HttpGet("records/customer/{customerId}")]
+        public IActionResult getRecordUnderCustomer(String customId)
+        {
+            SalesManager salesManager = new SalesManager();
+            List<SaleInformationDTO> saleInformationDTOs = salesManager.getRecordsUnderCustomer(customId);
+            return Ok(new JsonCreate { message = saleInformationDTOs != null && saleInformationDTOs.Count > 0 ? ConstMessage.GET_SUCCESS : ConstMessage.NOT_FOUND, data = saleInformationDTOs });
+        }
+        
+
+       
     }
 }
