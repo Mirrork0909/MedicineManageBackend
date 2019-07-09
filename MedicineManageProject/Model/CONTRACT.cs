@@ -9,8 +9,8 @@ namespace MedicineManageProject.Model
     [SugarTable("CONTRACT")]
     public class CONTRACT
     {
-        [SugarColumn(IsPrimaryKey =true)]
-        public decimal CONTRACT_ID { get; set; }
+        [SugarColumn(IsPrimaryKey =true, IsIdentity = true)]
+        public int CONTRACT_ID { get; set; }
 
         public DateTime DELIVERY_DATE { get; set; }
 

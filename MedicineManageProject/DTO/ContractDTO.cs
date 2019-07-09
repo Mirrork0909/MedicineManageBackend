@@ -14,15 +14,15 @@ namespace MedicineManageProject.DTO
 
         public int _contract_status { get; set; }
 
-        public string _staff_id { get; set; }
+        public String _staff_id { get; set; }
 
         public DateTime _sign_date { get; set; }
 
         public decimal _supplier_id { get; set; }
 
-        public string _name { get; set; }
+        public String _name { get; set; }
 
-        public string _phone { get; set; }
+        public String _phone { get; set; }
 
         public int _credit_level { get; set; }
 

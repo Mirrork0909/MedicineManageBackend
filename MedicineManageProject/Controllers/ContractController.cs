@@ -1,6 +1,7 @@
 ﻿using MedicineManageProject.DB.Services;
 using MedicineManageProject.DTO;
 using MedicineManageProject.Model;
+using MedicineManageProject.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,17 +14,59 @@ namespace MedicineManageProject.Controllers
     [ApiController]
     public class ContractController:ControllerBase
     {
-        [HttpGet("get")]
-        public IActionResult getAllContractInfo()
+        [HttpGet("all")]
+        public IActionResult getContractAll()
         {          
             ContractManager contractManager = new ContractManager();
-            return Ok(contractManager.getAllContractInformation());
+            List<ContractDTO> contractDTOs = contractManager.getAllContract();
+            return Ok(new JsonCreate() { message = Utils.ConstMessage.GET_SUCCESS, data = contractDTOs });
+            //return Ok(contractManager.getAllContractInformation());
         }
-        [Route("{id}")]
-        public IActionResult getOneContractItem(int id)
+
+
+        [HttpGet("{contractItemId}")]
+        public IActionResult getOneContractItem(int contractItemId)
         {
             ContractManager contractManager = new ContractManager();
-            return Ok(contractManager.getOneContractItem(id));
+            //return Ok(contractManager.getAllContractItem(contractItemId));
+            return Ok(new JsonCreate() { message = Utils.ConstMessage.GET_SUCCESS, data = contractManager.getAllContractItem(contractItemId) });
         }
+
+
+        [HttpPost("insert")]
+        public IActionResult insertNewContract(ContractDTO contractDTO)
+        {
+            if (contractDTO == null)
+            {
+                return BadRequest(new JsonCreate() { message = Utils.ConstMessage.BAD_REQUEST, data = false });
+            }
+            
+            ContractManager contractManager = new ContractManager();
+            ContractDTO judge = contractManager.insertContract(contractDTO);
+            if (judge!=null)
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.INSERT_SUCCESS, data = judge });
+            }
+            else
+            {
+                return Conflict(new JsonCreate() { message = Utils.ConstMessage.CONFILICT, data = false });
+            }
+        }
+
+        [HttpPost("update/{contractId}")]
+        public void completeOneContract(CompleteContractDTO completeContractDTO)
+        {
+            ContractManager contractManager = new ContractManager();
+            contractManager.completeOneContract(completeContractDTO);
+        }
+
+        [HttpGet("cost/month")]
+        public IActionResult getSumCostByMonth()
+        {
+            ContractManager contractManager = new ContractManager();
+            return Ok(new JsonCreate() { message = Utils.ConstMessage.INSERT_SUCCESS, data = contractManager.getCostByMonth() });
+        } 
+
+
     }
 }
