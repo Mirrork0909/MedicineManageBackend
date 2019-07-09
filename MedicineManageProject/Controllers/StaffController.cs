@@ -56,6 +56,32 @@ namespace MedicineManageProject.Controllers
                 return NotFound(jsonResult);
             }
         }
+        [HttpPost("register")]
+        public IActionResult registerStaff([FromForm] RegisterDTO registerDTO)
+        {
+            StaffManager staffManager = new StaffManager();
+            return Ok(new JsonCreate { message = staffManager.createStaff(registerDTO) });
+        }
+        [HttpPost("login")]
+        public IActionResult loginAccount([FromForm] LoginDTO loginDTO)
+        {
+            SessionUtil.addTokenToSession(this.HttpContext, loginDTO._id == null ? loginDTO._phone : loginDTO._id);
+             StaffManager  staffManager = new  StaffManager();
+            String result = "";
+            if (loginDTO._phone != null)
+            {
+                result =  staffManager.verifyPasswordAndPhone(loginDTO._phone, loginDTO._password);
+            }
+            else if (loginDTO._id != null)
+            {
+                result =  staffManager.verifyPasswordAndId(loginDTO._id, loginDTO._password);
+            }
+            else
+            {
+                result = ConstMessage.NOT_FOUND;
+            }
+            return Ok(new JsonCreate() { message = result });
+        }
 
 
     }

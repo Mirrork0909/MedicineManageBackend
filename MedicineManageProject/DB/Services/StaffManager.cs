@@ -1,4 +1,5 @@
-﻿using MedicineManageProject.Model;
+﻿using MedicineManageProject.DTO;
+using MedicineManageProject.Model;
 using MedicineManageProject.Utils;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,8 @@ namespace MedicineManageProject.DB.Services
 {
     public class StaffManager:DBContext
     {
+        static int BY_PHONE = 0;
+        static int BY_ID = 1;
         public void insertStaff(STAFF staff)
         {
             staff.SIGN_DATE = DateTime.Now;
@@ -72,5 +75,58 @@ namespace MedicineManageProject.DB.Services
                 return false;
             }
         }
+        public String verifyPasswordAndPhone(String phone, String password)
+        {
+            STAFF staff = Db.Queryable<STAFF>().Where(it => it.PHONE == phone).First();
+            return verifyStaff(staff, password, BY_PHONE);
+        }
+
+        public String verifyPasswordAndId(String id, String password)
+        {
+            STAFF staff = Db.Queryable<STAFF>().InSingle(id);
+            return verifyStaff(staff, password, BY_ID);
+        }
+        private String verifyStaff(STAFF staff, String password, int type)
+        {
+            if (staff != null)
+            {
+                if (Md5.verifyMd5Hash(password, staff.PASSWORD))
+                {
+                    return AccountConstMessage.LOGIN_SUCCESS;
+                }
+            }
+            if (type == BY_PHONE)
+            {
+                return AccountConstMessage.INVALID_INFO_PHONE;
+            }
+            else
+            {
+                return AccountConstMessage.INVALID_INFO_ID;
+            }
+        }
+        public String createStaff(RegisterDTO registerDTO)
+        {
+            STAFF staff0 = Db.Queryable<STAFF>().InSingle(registerDTO._id);
+            STAFF staff1 = Db.Queryable<STAFF>().Where(it => it.PHONE == registerDTO._phone).First();
+            if (staff0 != null)
+            {
+                return AccountConstMessage.EXISTED_ID;
+            }
+            if (staff1 != null)
+            {
+                return AccountConstMessage.EXISTED_PHONE;
+            }
+            STAFF staff = new STAFF();
+            staff.STAFF_ID = registerDTO._id;
+            staff.NAME = registerDTO._name;
+            staff.PASSWORD = Md5.getMd5Hash(registerDTO._password);
+            staff.PHONE = registerDTO._phone;
+            staff.SIGN_DATE = DateTime.Now;
+            Db.Insertable(staff).ExecuteCommand();
+            return AccountConstMessage.REGISTER_SUCCESS;
+        }
+
     }
+    
+
 }

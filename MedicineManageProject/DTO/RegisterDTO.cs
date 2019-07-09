@@ -11,5 +11,6 @@ namespace MedicineManageProject.DTO
         public String _id { get; set; }
         public String _phone { get; set; }
         public String _password { get; set; }
+        public int _position { get; set; }
     }
 }
