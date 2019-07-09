@@ -7,12 +7,12 @@ namespace MedicineManageProject.DTO
 {
     public class StockInDTO
     {
-        public String _medicine_id { set; get; }
+        public String medicine_id { set; get; }
 
-        public String _batch_id { get; set; }
+        public String batch_id { get; set; }
 
-        public DateTime _in_time { get; set; }
+        public DateTime in_time { get; set; }
 
-        public int _in_num { get; set; }
+        public int in_num { get; set; }
     }
 }
