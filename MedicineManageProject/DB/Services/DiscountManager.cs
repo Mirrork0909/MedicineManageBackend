@@ -52,6 +52,17 @@ namespace MedicineManageProject.DB.Services
             return dtos;
         }
 
+        public Decimal getDiscountPriceById(String medicineId,String batchId)
+        {
+            DateTime dateTime = DateTime.Now;
+            var discountPrice = Db.Queryable<DISCOUNT, SET_DISCOUNT>((d, sd) => d.DISCOUNT_ID == sd.DISCOUNT_ID)
+                .Where((d, sd) => sd.MEDICINE_ID == medicineId && sd.BATCH_ID == batchId 
+                && d.START_TIME < dateTime && d.END_TIME > dateTime)
+                .Select((d, sd) => d.DISCOUNT_PRICE).Single().ObjToDecimal();
+            return discountPrice;
+        }
+
+
         //建立一条新的优惠信息
         public bool insertNewDiscount(DiscountDTO discountDTO)
         {

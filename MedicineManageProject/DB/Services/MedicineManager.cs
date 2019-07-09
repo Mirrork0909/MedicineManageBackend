@@ -212,5 +212,12 @@ namespace MedicineManageProject.DB.Services
                 return false;
             }
         }
+
+        public Decimal getMedicinePrice(String medicineId, String batchId)
+        {
+            var price = Db.Queryable<MEDICINE_INSTANCE>().Where(it => it.BATCH_ID == batchId
+                && it.MEDICINE_ID == medicineId).Select(it => it.SALE_PRICE).Single().ObjToDecimal();
+            return price;
+        }
     }
 }
