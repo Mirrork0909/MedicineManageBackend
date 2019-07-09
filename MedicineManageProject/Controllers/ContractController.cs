@@ -53,18 +53,26 @@ namespace MedicineManageProject.Controllers
             }
         }
 
-        [HttpPost("update/{contractId}")]
-        public void completeOneContract(CompleteContractDTO completeContractDTO)
+        [HttpPost("update")]
+        public IActionResult completeOneContract(CompleteContractDTO completeContractDTO)
         {
             ContractManager contractManager = new ContractManager();
-            contractManager.completeOneContract(completeContractDTO);
+            bool flag = contractManager.completeOneContract(completeContractDTO);
+            if (flag == true)
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.UPDATE_SUCCESS,data=true });
+            }
+            else
+            {
+                return Conflict(new JsonCreate() { message = Utils.ConstMessage.UPDATE_FAIL, data = false });
+            }
         }
 
         [HttpGet("cost/month")]
         public IActionResult getSumCostByMonth()
         {
             ContractManager contractManager = new ContractManager();
-            return Ok(new JsonCreate() { message = Utils.ConstMessage.INSERT_SUCCESS, data = contractManager.getCostByMonth() });
+            return Ok(new JsonCreate() { message = Utils.ConstMessage.GET_SUCCESS, data = contractManager.getCostByMonth() });
         } 
 
 

@@ -11,20 +11,20 @@ namespace MedicineManageProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SaleController: ControllerBase
+    public class SaleController : ControllerBase
     {
         [HttpGet("all/amount/month")]
         public IActionResult getSaleAmountByMonth()
         {
             SalesManager salesManager = new SalesManager();
             List<SalesDataDTO> salesData = salesManager.getSalesAmountByMonth();
-            return Ok(addDataToResult(ConstMessage.GET_SUCCESS,salesData));
+            return Ok(addDataToResult(ConstMessage.GET_SUCCESS, salesData));
         }
         [HttpGet("records")]
         public IActionResult getSaleRecords()
         {
             SalesManager salesManager = new SalesManager();
-            List < SaleInformationDTO > saleRecords = salesManager.getSaleRecords();
+            List<SaleInformationDTO> saleRecords = salesManager.getSaleRecords();
             if (saleRecords != null)
             {
                 return Ok(addDataToResult(ConstMessage.GET_SUCCESS, saleRecords));

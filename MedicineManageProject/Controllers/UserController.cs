@@ -12,7 +12,7 @@ namespace MedicineManageProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController:ControllerBase
+    public class UserController : ControllerBase
     {
         [HttpPost("insert/customer")]
         public IActionResult insertNewCustomer([FromForm] CUSTOMER customer)
@@ -32,12 +32,12 @@ namespace MedicineManageProject.Controllers
 
         [HttpGet("get/all")]
         public IActionResult getAllUserInformation()
-        { 
+        {
             StaffManager staffManager = new StaffManager();
             CustomerManager customerManager = new CustomerManager();
             List<STAFF> staffs = staffManager.getAllStaffsInformation();
             List<CUSTOMER> customers = customerManager.getAllCustomersInformation();
-            return Ok(addDataToResult(staffs,customers));
+            return Ok(addDataToResult(staffs, customers));
         }
 
         [HttpGet("get/{name}")]
@@ -48,7 +48,7 @@ namespace MedicineManageProject.Controllers
             CustomerManager customerManager = new CustomerManager();
             List<STAFF> staffs = staffManager.getStaffInformationByName(name);
             List<CUSTOMER> customers = customerManager.getCustomerInformationByName(name);
-            return Ok(addDataToResult(staffs,customers));
+            return Ok(addDataToResult(staffs, customers));
         }
 
         public JsonCreate addDataToResult(List<STAFF> staffs, List<CUSTOMER> customers)
@@ -70,10 +70,10 @@ namespace MedicineManageProject.Controllers
             resultJson.data = userInformationListDTOs;
             return resultJson;
         }
-        public List<UserInformationDTO> addIdentity(List<CUSTOMER> users,String identity)
+        public List<UserInformationDTO> addIdentity(List<CUSTOMER> users, String identity)
         {
             List<UserInformationDTO> userList = new List<UserInformationDTO>();
-            foreach(CUSTOMER user in users)
+            foreach (CUSTOMER user in users)
             {
                 UserInformationDTO userInformationDTO = new UserInformationDTO();
                 userInformationDTO._id = user.CUSTOMER_ID;

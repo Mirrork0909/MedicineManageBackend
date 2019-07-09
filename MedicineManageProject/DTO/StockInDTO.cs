@@ -9,7 +9,7 @@ namespace MedicineManageProject.DTO
     {
         public String _medicine_id { set; get; }
 
-        public decimal _stock_in { get; set; }
+        public String _batch_id { get; set; }
 
         public DateTime _in_time { get; set; }
 

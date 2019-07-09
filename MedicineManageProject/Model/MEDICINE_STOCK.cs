@@ -8,7 +8,7 @@ namespace MedicineManageProject.Model
 {
     public class MEDICINE_STOCK
     {
-        [SugarColumn(IsPrimaryKey = true)]
+        [SugarColumn(IsPrimaryKey = true,IsIdentity =true)]
         public Decimal STOCK_ID { get; set; }
         public String MEDICINE_ID { get; set; }
         public String BATCH_ID { set; get; }

@@ -11,4 +11,5 @@ namespace MedicineManageProject.Utils
         public object data { get; set; }
     }
 
+
 }
