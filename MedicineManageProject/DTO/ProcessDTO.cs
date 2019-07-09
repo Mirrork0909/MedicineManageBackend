@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace MedicineManageProject.DTO
 {
-    public class SaleItemDTO
+    public class ProcessDTO
     {
+    //    public String _name { get; set; }
         public String _medicine_id { get; set; }
         public String _batch_id { get; set; }
-        public String _medicine_name { get; set; }
-        public int _sale_num { get; set; }
-        public Decimal _per_price { get; set; }
+        public int _num { get; set; }
+        public String _staff_id { get; set; }
     }
 }

@@ -29,32 +29,12 @@ namespace MedicineManageProject.DB.Services
                     MEDICINE_IMAGE = medicine._medicine_image
                 };
 
-                MEDICINE_INSTANCE medicineInstance = new MEDICINE_INSTANCE()
-                {
-                    MEDICINE_ID = medicine._medicine_id,
-                    BATCH_ID = medicine._batch_id,
-                    PRODUCTION_DATE = medicine._production_date,
-                    VALIDITY_DATE = medicine._validity_date,
-                    SALE_PRICE = medicine._sale_price,
-                    PURCHASE_PRICE = medicine._purchase_price,
-                    
-                };
-
-                MEDICINE_STOCK medicineStock = new MEDICINE_STOCK()
-                {
-                    MEDICINE_ID = medicine._medicine_id,
-                    BATCH_ID = medicine._batch_id,
-                    AMOUNT = 0
-                };
-
                 bool judge = Db.Queryable<MEDICINE_INFORMATION>().Where(it => it.MEDICINE_ID == medicine._medicine_id).Any();
                 if (!judge)
                 {
                     Db.Insertable(medicineInformation).ExecuteCommand();
                 }
-                Db.Insertable(medicineInstance).ExecuteCommand();
-                Db.Insertable(medicineStock).IgnoreColumns(it => new { it.STOCK_ID }).ExecuteCommand();
-
+            
                 Db.Ado.CommitTran();
                 return true;
 
@@ -191,19 +171,7 @@ namespace MedicineManageProject.DB.Services
                     MEDICINE_IMAGE = medicineDTO._medicine_image
                 };
 
-                MEDICINE_INSTANCE medicineInstance = new MEDICINE_INSTANCE()
-                {
-                    MEDICINE_ID = medicineDTO._medicine_id,
-                    BATCH_ID = medicineDTO._batch_id,
-                    PRODUCTION_DATE = medicineDTO._production_date,
-                    VALIDITY_DATE = medicineDTO._validity_date,
-                    SALE_PRICE = medicineDTO._sale_price,
-                    PURCHASE_PRICE = medicineDTO._purchase_price,
-                    
-                };
-
                 Db.Updateable(medicineInformation);
-                Db.Updateable(medicineInstance);
 
                 Db.Ado.CommitTran();
                 return true;

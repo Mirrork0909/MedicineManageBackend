@@ -12,6 +12,6 @@ namespace MedicineManageProject.Model
         public Decimal STOCK_ID { get; set; }
         public String STAFF_ID { get; set; }
         public DateTime PROCESS_DATE { get; set; }
-        public int PROCESS_NUM { get; set; }
+        public int PROCESS_NUMBER { get; set; }
     }
 }

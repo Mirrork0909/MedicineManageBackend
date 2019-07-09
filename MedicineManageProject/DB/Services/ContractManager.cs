@@ -116,38 +116,86 @@ namespace MedicineManageProject.DB.Services
                 Db.Ado.BeginTran();
                 CONTRACT contract = Db.Queryable<CONTRACT>().InSingle(completeContractDTO._contract_id);
                 contract.CONTRACT_STATUS = 2;
+                Db.Updateable(contract).ExecuteCommand();
 
-                List<CONTRACT_ITEM> list = Db.Queryable<CONTRACT_ITEM>().Where((it) => it.CONTRACT_ID == completeContractDTO._contract_id).ToList();
-                if (list != null)
+                var length = Db.Queryable<CONTRACT_ITEM>().Where((it) => it.CONTRACT_ID == completeContractDTO._contract_id)
+                    .Select(it => SqlFunc.AggregateCount(it.MEDICINE_ID)).Single();
+                if(length != completeContractDTO.stockInDTOs.Count)
                 {
-                    for (int i = 0; i < completeContractDTO.stockInDTOs.Count; i++)
-                    {
-                        list[i].MEDICINE_STATUS = 2;
-                        Db.Updateable(list[i]).ExecuteCommand();
-
-
-
-
-                        var isInStock = Db.Queryable<MEDICINE_STOCK>().Where((ms) => ms.MEDICINE_ID == completeContractDTO.stockInDTOs[i]._medicine_id
-                        && completeContractDTO.stockInDTOs[i]._batch_id == ms.BATCH_ID).First();
-                        if (isInStock == null)
-                        {
-                            return false;
-                        }
-                        else
-                        {
-                            isInStock.AMOUNT += completeContractDTO.stockInDTOs[i]._in_num;
-                            Db.Updateable(isInStock).ExecuteCommand();
-                        }
-
-                        STOCK_IN stock_in = new STOCK_IN();
-                        stock_in.STOCK_ID = isInStock.STOCK_ID;
-                        stock_in.CONTRACT_ID = completeContractDTO._contract_id;
-                        stock_in.IN_NUM = completeContractDTO.stockInDTOs[i]._in_num;
-                        stock_in.IN_TIME = completeContractDTO.stockInDTOs[i]._in_time;
-                        Db.Insertable(stock_in).ExecuteCommand();
-                    }
+                    throw new Exception();
                 }
+                foreach(StockInDTO stockInDTO in completeContractDTO.stockInDTOs) {
+                    CONTRACT_ITEM contractItem = Db.Queryable<CONTRACT_ITEM>().
+                        Where((it) => it.MEDICINE_ID == stockInDTO._medicine_id).Single();
+                    if(contractItem.MEDICINE_STATUS == 2)
+                    {
+                        continue;
+                    }
+                    contractItem.MEDICINE_STATUS = 2;
+                    Db.Updateable(contractItem).ExecuteCommand();
+
+                    MEDICINE_INSTANCE medicineInstance = new MEDICINE_INSTANCE
+                    {
+                        MEDICINE_ID = stockInDTO._medicine_id,
+                        BATCH_ID = stockInDTO._batch_id,
+                        PRODUCTION_DATE = stockInDTO._production_date,
+                        VALIDITY_DATE = stockInDTO._validity_date,
+                        PURCHASE_PRICE = contractItem.MEDICINE_MONEY,
+                        SALE_PRICE = stockInDTO._sale_price
+                    };
+                    Db.Insertable(medicineInstance).ExecuteCommand();
+
+                    MEDICINE_STOCK medicineStock = new MEDICINE_STOCK
+                    {
+                        MEDICINE_ID = stockInDTO._medicine_id,
+                        BATCH_ID = stockInDTO._batch_id,
+                        AMOUNT = stockInDTO._in_num
+                    };
+
+                    Db.Insertable(medicineStock).IgnoreColumns(it => new { it.STOCK_ID}).ExecuteCommand();
+                    var id = Db.Ado.SqlQuery<int>("select ISEQ$$_84079.currval from dual").Single();
+
+                    STOCK_IN stockIn = new STOCK_IN
+                    {
+                        STOCK_ID = id,
+                        CONTRACT_ID = completeContractDTO._contract_id,
+                        IN_NUM = stockInDTO._in_num,
+                        IN_TIME = stockInDTO._in_time
+                    };
+
+                    Db.Insertable(stockIn).ExecuteCommand();
+
+                }
+                /*    if (list != null)
+                    {
+                        for (int i = 0; i < completeContractDTO.stockInDTOs.Count; i++)
+                        {
+                            list[i].MEDICINE_STATUS = 2;
+                            bool isAny = Db.Queryable<MEDICINE_STOCK>().Where(it=>it.MEDICINE_ID == list[i].)
+                            Db.Updateable(list[i]).ExecuteCommand();
+
+                         /*   var isInStock = Db.Queryable<MEDICINE_STOCK>().Where((ms) => ms.MEDICINE_ID == completeContractDTO.stockInDTOs[i]._medicine_id
+                            && completeContractDTO.stockInDTOs[i]._batch_id == ms.BATCH_ID).First();
+                            if (isInStock == null)
+                            {
+                                return false;
+                            }
+                            else
+                            {
+                                isInStock.AMOUNT += completeContractDTO.stockInDTOs[i]._in_num;
+                                Db.Updateable(isInStock).ExecuteCommand();
+                            }*/
+
+
+
+                /*         STOCK_IN stock_in = new STOCK_IN();
+                         stock_in.STOCK_ID = isInStock.STOCK_ID;
+                         stock_in.CONTRACT_ID = completeContractDTO._contract_id;
+                         stock_in.IN_NUM = completeContractDTO.stockInDTOs[i]._in_num;
+                         stock_in.IN_TIME = completeContractDTO.stockInDTOs[i]._in_time;
+                         Db.Insertable(stock_in).ExecuteCommand();
+                     }
+                 }*/
                 Db.Ado.CommitTran();
                 return true;
             }

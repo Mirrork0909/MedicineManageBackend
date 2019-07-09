@@ -84,7 +84,9 @@ namespace MedicineManageProject.DB.Services
                     totalPrice += truePrice;
                 }
 
-
+                CUSTOMER customer = Db.Queryable<CUSTOMER>().Where(it => it.CUSTOMER_ID == purchaseDTO._customer_id).Single();
+                customer.BONUS_POINT = customer.BONUS_POINT + (int)totalPrice;
+                Db.Updateable(customer).ExecuteCommand();
 
                 SALE_RECORD saleRecord = new SALE_RECORD
                 {

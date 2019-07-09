@@ -14,5 +14,12 @@ namespace MedicineManageProject.DTO
         public DateTime _in_time { get; set; }
 
         public int _in_num { get; set; }
+
+        public Decimal _sale_price { set; get; }
+
+        public DateTime _production_date { set; get; }
+
+        public DateTime _validity_date { set; get; }
+
     }
 }
