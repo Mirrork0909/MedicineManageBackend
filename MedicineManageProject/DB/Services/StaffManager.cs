@@ -1,4 +1,5 @@
 ﻿using MedicineManageProject.Model;
+using MedicineManageProject.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,10 +32,10 @@ namespace MedicineManageProject.DB.Services
             STAFF staff = Db.Queryable<STAFF>().InSingle(id);
             if (staff != null)
             {
-                staff.PASSWORD = password;
-                Db.Updateable(staff);
+                staff.PASSWORD = Md5.getMd5Hash(password);
+                Db.Updateable(staff).ExecuteCommand();
                 STAFF _updatedStaff = Db.Queryable<STAFF>().InSingle(id);
-                if (_updatedStaff.PASSWORD == password)
+                if (_updatedStaff.PASSWORD == Md5.getMd5Hash(password))
                 {
                     return true;
                 }

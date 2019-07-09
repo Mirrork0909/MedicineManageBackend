@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace MedicineManageProject.DTO
 {
-    public class SalesDataDTO
+    public class SalesDataByMonthDTO
     {
-        public String _time;
+        public int _year;
+        public int _month;
         public decimal _amount;
     }
 }
