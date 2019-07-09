@@ -17,6 +17,10 @@ namespace MedicineManageProject.Controllers
         [HttpGet("all/num")]
         public IActionResult countAllCustomerNum()
         {
+            /*if (!SessionUtil.checkSessionExisted(this.HttpContext))
+            {
+                return Ok(new JsonCreate { message = ConstMessage.AUTHORIZATION_EXPIRED });
+            }*/
             CustomerManager customerManager = new CustomerManager();
             int num = customerManager.getAllCustomerNum();
             return Ok(new JsonCreate { message = ConstMessage.GET_SUCCESS, data = num });
@@ -32,6 +36,7 @@ namespace MedicineManageProject.Controllers
         [HttpPost("login")]
         public IActionResult loginAccount([FromForm] LoginDTO loginDTO)
         {
+            SessionUtil.addTokenToSession(this.HttpContext,loginDTO._id==null?loginDTO._phone:loginDTO._id);
             CustomerManager customerManager = new CustomerManager();
             String result = "";
             if (loginDTO._phone != null)

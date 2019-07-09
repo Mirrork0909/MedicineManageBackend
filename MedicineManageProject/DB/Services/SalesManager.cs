@@ -193,6 +193,26 @@ namespace MedicineManageProject.DB.Services
             return saleItems;
         }
 
+        //获取所有药品的销售记录
+        public List<MedicineSaleDataDTO> getAllMedicineSaleData()
+        {
+            List<MedicineSaleDataDTO> group = Db.Queryable<SALE_RECORD_ITEM, MEDICINE_INFORMATION>(
+                (s, mi) => s.MEDICINE_ID == mi.MEDICINE_ID ).GroupBy((s, mi) =>mi.MEDICINE_ID)
+             .Select((s, mi) => new MedicineSaleDataDTO
+             {
+                 _medicine_id = mi.MEDICINE_ID,
+                 _sale_num = SqlFunc.AggregateSum(s.SALE_NUM)
+             }).ToList();
+            foreach (MedicineSaleDataDTO temp in group)
+            {
+                MEDICINE_INFORMATION s = Db.Queryable<MEDICINE_INFORMATION>().InSingle(temp._medicine_id);
+                int amount = Db.Queryable<MEDICINE_STOCK>().Where(it => it.MEDICINE_ID == temp._medicine_id).Sum(it=>it.AMOUNT);
+                temp._medicine_name = s.MEDICINE_NAME;
+                temp._amount = amount;
+            }
+            group.Sort();
+            return group;
+        }
 
     }
 }

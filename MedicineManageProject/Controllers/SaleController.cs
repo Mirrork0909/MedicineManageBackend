@@ -74,5 +74,14 @@ namespace MedicineManageProject.Controllers
             jsonCreate.data = data;
             return jsonCreate;
         }
+
+
+        [HttpGet("all/medicine/salesRecord")]
+        public IActionResult getAllMedicinSalesData()
+        {
+            SalesManager salesManager = new SalesManager();
+            List<MedicineSaleDataDTO> medicineSaleDatas  = salesManager.getAllMedicineSaleData();
+            return Ok(new JsonCreate { message = ConstMessage.GET_SUCCESS, data = medicineSaleDatas });
+        }
     }
 }
