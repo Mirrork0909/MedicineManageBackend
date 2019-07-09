@@ -14,5 +14,6 @@ namespace MedicineManageProject.Model
         public String NAME { get; set; }
         public String PHONE { get; set; }
         public int POSITION { get; set; }
+        public DateTime SIGN_DATE { get; set; }
     }
 }
