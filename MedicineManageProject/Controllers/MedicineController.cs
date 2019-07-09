@@ -68,8 +68,5 @@ namespace MedicineManageProject.Controllers
                 return Conflict(new JsonCreate() { message = Utils.ConstMessage.CONFILICT, data = false });
             }
         }
-
-
-
     }
 }
