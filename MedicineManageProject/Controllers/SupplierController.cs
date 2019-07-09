@@ -21,7 +21,11 @@ namespace MedicineManageProject.Controllers
             return Ok(new JsonCreate() { message = Utils.ConstMessage.GET_SUCCESS, data = supplierDTOs });
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}/medicine")]
         public IActionResult getAllMedicineBySupplier(int id)
         {
@@ -45,6 +49,52 @@ namespace MedicineManageProject.Controllers
             SupplierManager supplierManager = new SupplierManager();
             return Ok(new JsonCreate() { message = Utils.ConstMessage.GET_SUCCESS, data = supplierManager.getMedicineGroupBySupplier() });
         }
+
+        [HttpPost("insert")]
+        public IActionResult createSupplier([FromForm]SupplierDTO supplierDTO)
+        {
+            SupplierManager supplierManager = new SupplierManager();
+            SupplierDTO temp = supplierManager.createSupplier(supplierDTO);
+            if (supplierDTO != null)
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.INSERT_SUCCESS, data = temp });
+            }
+            else
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.CONFILICT, data = temp });
+            }
+        }
+
+        [HttpPost("update")]
+        public IActionResult updateSupplier([FromForm]SupplierDTO supplierDTO)
+        {
+            SupplierManager supplierManager = new SupplierManager();
+            bool temp = supplierManager.updateSupplier(supplierDTO);
+            if (temp == true)
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.UPDATE_SUCCESS, data = temp });
+            }
+            else
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.UPDATE_FAIL, data = temp });
+            }
+        }
+
+        [HttpPost("{id}/delete")]
+        public IActionResult deleteSupplier(int id)
+        {
+            SupplierManager supplierManager = new SupplierManager();
+            bool flag = supplierManager.deleteSupplier(id);
+            if (flag == true)
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.UPDATE_SUCCESS, data = null });
+            }
+            else
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.UPDATE_FAIL, data = null });
+            }
+        }
+
 
     }
 

@@ -8,8 +8,8 @@ namespace MedicineManageProject.Model
 {
     public class SUPPLIER
     {
-        [SugarColumn(IsPrimaryKey = true)]
-        public decimal SUPPLIER_ID { get; set; }
+        [SugarColumn(IsPrimaryKey = true,IsIdentity =true)]
+        public int SUPPLIER_ID { get; set; }
 
         public string NAME { get; set; }
 
