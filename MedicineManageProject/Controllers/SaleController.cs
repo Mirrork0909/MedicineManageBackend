@@ -17,23 +17,56 @@ namespace MedicineManageProject.Controllers
         public IActionResult getSaleAmountByMonth()
         {
             SalesManager salesManager = new SalesManager();
-            List<SalesDataDTO> salesData = salesManager.getSalesAmountByMonth();
-            return Ok(addDataToResult(ConstMessage.GET_SUCCESS, salesData));
+            List<SalesDataByMonthDTO> salesData = salesManager.getSalesAmountByMonth();
+            return Ok(new JsonCreate { message = ConstMessage.GET_SUCCESS, data = salesData });
         }
         [HttpGet("records")]
-        public IActionResult getSaleRecords()
+        public IActionResult getTenSaleRecords()
         {
             SalesManager salesManager = new SalesManager();
             List<SaleInformationDTO> saleRecords = salesManager.getSaleRecords();
             if (saleRecords != null)
             {
-                return Ok(addDataToResult(ConstMessage.GET_SUCCESS, saleRecords));
+                return Ok(new JsonCreate { message = ConstMessage.GET_SUCCESS,data = saleRecords });
             }
             else
             {
-                return Ok(addDataToResult(ConstMessage.NOT_FOUND, saleRecords));
+                return Ok(new JsonCreate { message = ConstMessage.NOT_FOUND, data = saleRecords });
             }
         }
+
+        [HttpPost("purchase")]
+        public IActionResult purchase(PurchaseDTO purchaseDTO)
+        {
+            SalesManager salesManager = new SalesManager();
+            bool judge = salesManager.purchase(purchaseDTO);
+            if (judge)
+            {
+                return Ok(addDataToResult(ConstMessage.INSERT_SUCCESS, judge));
+            }
+            else
+            {
+                return Conflict(addDataToResult(ConstMessage.CONFILICT, judge));
+            }
+        }
+
+        [HttpGet("all/records")]
+        public IActionResult getAllRecords()
+        {
+            SalesManager salesManager = new SalesManager();
+            object result = salesManager.getAllSaleRecords();
+            return Ok(addDataToResult(ConstMessage.GET_SUCCESS, result));
+        }
+
+       [HttpGet("records/{saleId}")]
+       public IActionResult getSaleItemFromOneRecord(Decimal saleId)
+        {
+            SalesManager salesManager = new SalesManager();
+            object result = salesManager.getAllOrderItemOfOneSaleInfo(saleId);
+            return Ok(addDataToResult(ConstMessage.GET_SUCCESS, result));
+        }
+
+
         public JsonCreate addDataToResult(String message, object data)
         {
             JsonCreate jsonCreate = new JsonCreate();

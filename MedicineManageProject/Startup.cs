@@ -63,6 +63,7 @@ namespace MedicineManageProject
             {
                 app.UseHsts();
             }
+            
 
             app.UseHttpsRedirection();
             app.UseMvc();

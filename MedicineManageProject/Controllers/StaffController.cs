@@ -46,6 +46,7 @@ namespace MedicineManageProject.Controllers
                 StaffInformaitonDTO staffInformation = new StaffInformaitonDTO();
                 staffInformation._name = staff.NAME;
                 staffInformation._phone = staff.PHONE;
+                jsonResult.message = ConstMessage.GET_SUCCESS;
                 jsonResult.data = staffInformation;
                 return Ok(jsonResult);
             }

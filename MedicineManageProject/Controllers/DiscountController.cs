@@ -30,6 +30,24 @@ namespace MedicineManageProject.Controllers
             return Ok(new JsonCreate() { message = Utils.ConstMessage.GET_SUCCESS, data = discountDTOs });
         }
         
+        [HttpPost("setDiscount")]
+        public IActionResult setDiscount([FromForm] DiscountDTO discountDTO)
+        {
+            if(discountDTO == null)
+            {
+                return BadRequest(new JsonCreate() { message = Utils.ConstMessage.BAD_REQUEST, data = false });
+            }
+            DiscountManager discount = new DiscountManager();
+            bool judge = discount.insertNewDiscount(discountDTO);
+            if (judge)
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.INSERT_SUCCESS, data = judge });
+            }
+            else
+            {
+                return Conflict(new JsonCreate() { message = Utils.ConstMessage.CONFILICT, data = false });
+            }
+        }
     }
 
    
