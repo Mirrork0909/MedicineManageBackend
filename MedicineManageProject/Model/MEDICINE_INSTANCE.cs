@@ -14,9 +14,8 @@ namespace MedicineManageProject.Model
         public String BATCH_ID { get; set; }
         public Decimal PURCHASE_PRICE { get; set; }
         public Decimal SALE_PRICE { get; set; }
-        public Decimal SUPPLIER_ID { get; set; }
         public DateTime PRODUCTION_DATE { get; set; }
         public DateTime VALIDITY_DATE { get; set; }
-        public String MEDICINE_IMAGE { set; get; }
+        
     }
 }
