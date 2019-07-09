@@ -219,5 +219,6 @@ namespace MedicineManageProject.DB.Services
                 && it.MEDICINE_ID == medicineId).Select(it => it.SALE_PRICE).Single().ObjToDecimal();
             return price;
         }
+
     }
 }
