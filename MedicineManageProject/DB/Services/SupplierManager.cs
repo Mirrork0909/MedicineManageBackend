@@ -29,14 +29,13 @@ namespace MedicineManageProject.DB.Services
 
         public List<MedicineBySupplierDTO> getAllMedicineBySupplier(int id)
         {
-            List<MedicineBySupplierDTO> list= Db.Queryable<MEDICINE_INFORMATION, MEDICINE_INSTANCE>((minfo, mins) => minfo.MEDICINE_ID == mins.MEDICINE_ID)
-                .Where((minfo, mins) => mins.SUPPLIER_ID == id).Select((minfo, mins) => new MedicineBySupplierDTO
-                {
-                    _medicine_id = minfo.MEDICINE_ID,
-                    _medicine_name = minfo.MEDICINE_NAME,
-                    _purchase_price=mins.PURCHASE_PRICE
-                }).ToList();
-            return list;
+            //List<MedicineBySupplierDTO> list= Db.Queryable<MEDICINE_INFORMATION>()
+            //    .Where((minfo) => minfo.SUPPLIER_ID == id).Select((minfo) => new MedicineBySupplierDTO
+            //    {
+            //        _medicine_id = minfo.MEDICINE_ID,
+            //        _medicine_name = minfo.MEDICINE_NAME,
+            //    }).ToList();
+            return null;
         }
         public List<MedicineTypeBySupplierDTO> getMedicineGroupBySupplier()
         {
@@ -46,6 +45,7 @@ namespace MedicineManageProject.DB.Services
                 _type_number = SqlFunc.AggregateCount(ci.MEDICINE_ID),
                 _supplier_id=s.SUPPLIER_ID
             }).ToList();
+
             foreach(MedicineTypeBySupplierDTO temp in group)
             {
                 SUPPLIER s = Db.Queryable<SUPPLIER>().InSingle(temp._supplier_id);

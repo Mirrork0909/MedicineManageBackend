@@ -24,7 +24,9 @@ namespace MedicineManageProject.DB.Services
                     MEDICINE_NAME = medicine._medicine_name,
                     MEDICINE_TYPE = medicine._medicine_type,
                     MEDICINE_INGREDIENTS = medicine._medicine_ingredients,
-                    MEDICINE_USAGE = medicine._medicine_usage
+                    MEDICINE_USAGE = medicine._medicine_usage,
+                    SUPPLIER_ID = medicine._supplier_id,
+                    MEDICINE_IMAGE = medicine._medicine_image
                 };
 
                 MEDICINE_INSTANCE medicineInstance = new MEDICINE_INSTANCE()
@@ -35,8 +37,7 @@ namespace MedicineManageProject.DB.Services
                     VALIDITY_DATE = medicine._validity_date,
                     SALE_PRICE = medicine._sale_price,
                     PURCHASE_PRICE = medicine._purchase_price,
-                    SUPPLIER_ID = medicine._supplier_id,
-                    MEDICINE_IMAGE = medicine._medicine_image
+                    
                 };
 
                 MEDICINE_STOCK medicineStock = new MEDICINE_STOCK()
@@ -89,13 +90,13 @@ namespace MedicineManageProject.DB.Services
                     _medicine_character = minfo.MEDICINE_CHARACTER,
                     _medicine_ingredients = minfo.MEDICINE_INGREDIENTS,
                     _medicine_type = minfo.MEDICINE_TYPE,
-                    _medicine_image = mins.MEDICINE_IMAGE,
+                    _medicine_image = minfo.MEDICINE_IMAGE,
                     _medicine_name = minfo.MEDICINE_NAME,
                     _medicine_usage = minfo.MEDICINE_USAGE,
                     _production_date = mins.PRODUCTION_DATE,
                     _purchase_price = mins.PURCHASE_PRICE,
                     _sale_price = mins.SALE_PRICE,
-                    _supplier_id = mins.SUPPLIER_ID,
+                    _supplier_id = minfo.SUPPLIER_ID,
                     _validity_date = mins.VALIDITY_DATE
                 }).ToList();
 
@@ -117,13 +118,13 @@ namespace MedicineManageProject.DB.Services
                      _medicine_character = minfo.MEDICINE_CHARACTER,
                      _medicine_ingredients = minfo.MEDICINE_INGREDIENTS,
                      _medicine_type = minfo.MEDICINE_TYPE,
-                     _medicine_image = mins.MEDICINE_IMAGE,
+                     _medicine_image = minfo.MEDICINE_IMAGE,
                      _medicine_name = minfo.MEDICINE_NAME,
                      _medicine_usage = minfo.MEDICINE_USAGE,
                      _production_date = mins.PRODUCTION_DATE,
                      _purchase_price = mins.PURCHASE_PRICE,
                      _sale_price = mins.SALE_PRICE,
-                     _supplier_id = mins.SUPPLIER_ID,
+                     _supplier_id = minfo.SUPPLIER_ID,
                      _validity_date = mins.VALIDITY_DATE
                  }).ToList();
 
@@ -148,13 +149,13 @@ namespace MedicineManageProject.DB.Services
                         _medicine_character = minfo.MEDICINE_CHARACTER,
                         _medicine_ingredients = minfo.MEDICINE_INGREDIENTS,
                         _medicine_type = minfo.MEDICINE_TYPE,
-                        _medicine_image = mins.MEDICINE_IMAGE,
+                        _medicine_image = minfo.MEDICINE_IMAGE,
                         _medicine_name = minfo.MEDICINE_NAME,
                         _medicine_usage = minfo.MEDICINE_USAGE,
                         _production_date = mins.PRODUCTION_DATE,
                         _purchase_price = mins.PURCHASE_PRICE,
                         _sale_price = mins.SALE_PRICE,
-                        _supplier_id = mins.SUPPLIER_ID,
+                        _supplier_id = minfo.SUPPLIER_ID,
                         _validity_date = mins.VALIDITY_DATE
                     }).ToList();
 
@@ -185,7 +186,9 @@ namespace MedicineManageProject.DB.Services
                     MEDICINE_NAME = medicineDTO._medicine_name,
                     MEDICINE_TYPE = medicineDTO._medicine_type,
                     MEDICINE_INGREDIENTS = medicineDTO._medicine_ingredients,
-                    MEDICINE_USAGE = medicineDTO._medicine_usage
+                    MEDICINE_USAGE = medicineDTO._medicine_usage,
+                    SUPPLIER_ID = medicineDTO._supplier_id,
+                    MEDICINE_IMAGE = medicineDTO._medicine_image
                 };
 
                 MEDICINE_INSTANCE medicineInstance = new MEDICINE_INSTANCE()
@@ -196,8 +199,7 @@ namespace MedicineManageProject.DB.Services
                     VALIDITY_DATE = medicineDTO._validity_date,
                     SALE_PRICE = medicineDTO._sale_price,
                     PURCHASE_PRICE = medicineDTO._purchase_price,
-                    SUPPLIER_ID = medicineDTO._supplier_id,
-                    MEDICINE_IMAGE = medicineDTO._medicine_image
+                    
                 };
 
                 Db.Updateable(medicineInformation);

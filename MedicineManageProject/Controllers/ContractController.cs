@@ -19,7 +19,14 @@ namespace MedicineManageProject.Controllers
         {          
             ContractManager contractManager = new ContractManager();
             List<ContractDTO> contractDTOs = contractManager.getAllContract();
-            return Ok(new JsonCreate() { message = Utils.ConstMessage.GET_SUCCESS, data = contractDTOs });
+            if (contractDTOs != null)
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.GET_SUCCESS, data = contractDTOs });
+            }
+            else
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.CONFILICT, data = contractDTOs });
+            }
             //return Ok(contractManager.getAllContractInformation());
         }
 
@@ -29,7 +36,16 @@ namespace MedicineManageProject.Controllers
         {
             ContractManager contractManager = new ContractManager();
             //return Ok(contractManager.getAllContractItem(contractItemId));
-            return Ok(new JsonCreate() { message = Utils.ConstMessage.GET_SUCCESS, data = contractManager.getAllContractItem(contractItemId) });
+            var t = contractManager.getAllContractItem(contractItemId);
+            if (t != null)
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.GET_SUCCESS, data = t });
+            }
+            else
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.NOT_FOUND, data = null });
+            }
+            
         }
 
 
