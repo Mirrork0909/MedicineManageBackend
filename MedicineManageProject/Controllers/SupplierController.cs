@@ -27,7 +27,16 @@ namespace MedicineManageProject.Controllers
         {
             SupplierManager contractManager = new SupplierManager();
             List<MedicineBySupplierDTO> medicineInformation = contractManager.getAllMedicineBySupplier(id);
-            return Ok(new JsonCreate() { message = Utils.ConstMessage.GET_SUCCESS, data = medicineInformation });
+            if (medicineInformation != null)
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.GET_SUCCESS, data = medicineInformation });
+
+            }
+            else
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.NOT_FOUND, data = medicineInformation });
+            }
+            
         }
 
         [HttpGet("medicine/group")]

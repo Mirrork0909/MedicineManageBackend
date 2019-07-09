@@ -14,18 +14,25 @@ namespace MedicineManageProject.DB.Services
         {
             var allContract = Db.Queryable<CONTRACT>().ToList();
             List<ContractDTO> contractDTOs = new List<ContractDTO>();
-            foreach (CONTRACT contract in allContract)
+            if (allContract != null)
             {
-                ContractDTO temp = new ContractDTO();
-                temp._contract_id = contract.CONTRACT_ID;
-                temp._contract_status = contract.CONTRACT_STATUS;
-                temp._delivery_date = contract.DELIVERY_DATE;
-                temp._sign_date = contract.SIGN_DATE;
-                temp._supplier_id = contract.SUPPLIER_ID;
-                temp._staff_id = contract.STAFF_ID;
-                contractDTOs.Add(temp);
+                foreach (CONTRACT contract in allContract)
+                {
+                    ContractDTO temp = new ContractDTO();
+                    temp._contract_id = contract.CONTRACT_ID;
+                    temp._contract_status = contract.CONTRACT_STATUS;
+                    temp._delivery_date = contract.DELIVERY_DATE;
+                    temp._sign_date = contract.SIGN_DATE;
+                    temp._supplier_id = contract.SUPPLIER_ID;
+                    temp._staff_id = contract.STAFF_ID;
+                    contractDTOs.Add(temp);
+                }
+                return contractDTOs;
             }
-            return contractDTOs;
+            else
+            {
+                return null;
+            }
         }
 
         public ContractDTO getAllContractItem(int id)
@@ -34,18 +41,22 @@ namespace MedicineManageProject.DB.Services
             s.SUPPLIER_ID==c.SUPPLIER_ID).Where((c)=>c.CONTRACT_ID==id)           
             .Select((c,s) => new ContractDTO{ _contract_id = c.CONTRACT_ID,_supplier_id = c.SUPPLIER_ID,_name=s.NAME,_phone=s.PHONE,_credit_level=s.CREDIT_LEVEL
             }).Single();
-
-            contractDTO._contract_items = Db.Queryable<CONTRACT_ITEM>().Where((ci) => ci.CONTRACT_ID == id)
-            .Select((ci) => new ContractItemDTO
+            if (contractDTO != null)
             {
-                _medicine_id = ci.MEDICINE_ID,
-                _medicine_money = ci.MEDICINE_MONEY,
-                _medicine_status=ci.MEDICINE_STATUS,
-                _medicine_amount=ci.MEDICINE_AMOUNT
+                contractDTO._contract_items = Db.Queryable<CONTRACT_ITEM>().Where((ci) => ci.CONTRACT_ID == id)
+                .Select((ci) => new ContractItemDTO
+                {
+                    _medicine_id = ci.MEDICINE_ID,
+                    _medicine_money = ci.MEDICINE_MONEY,
+                    _medicine_status=ci.MEDICINE_STATUS,
+                    _medicine_amount=ci.MEDICINE_AMOUNT
 
-            }
+                }
             ).ToList();
             return contractDTO;
+            }
+            return null;
+            
         }
 
         public ContractDTO insertContract(ContractDTO contractDTO)
