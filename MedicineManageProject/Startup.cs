@@ -48,6 +48,12 @@ namespace MedicineManageProject
                 
             });
             #endregion
+            services.AddSession(options =>
+            {
+                // 设置 Session 过期时间(为两次访问的间隔时间) 不设置默认是20分钟
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+   
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
         }
@@ -63,8 +69,9 @@ namespace MedicineManageProject
             {
                 app.UseHsts();
             }
-            
 
+            // session 要在usemvc前面
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseMvc();
 

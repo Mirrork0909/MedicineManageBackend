@@ -14,5 +14,6 @@ namespace MedicineManageProject.Utils
         public static String INSERT_SUCCESS = "插入信息成功";
         public static String BAD_REQUEST = "糟糕的请求参数";
         public static String UPDATE_FAIL = "更新信息失败";
+        public static String AUTHORIZATION_EXPIRED = "用户授权过期";
     }
 }
