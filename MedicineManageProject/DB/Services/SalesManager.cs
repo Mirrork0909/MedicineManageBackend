@@ -58,7 +58,7 @@ namespace MedicineManageProject.DB.Services
                     }
                 }
             }
-            salesDatas.Sort(new YMSortCompare());
+            salesDatas.Sort(new MedicineManageProject.Utils.YMSortCompare());
             return salesDatas;
         }
 

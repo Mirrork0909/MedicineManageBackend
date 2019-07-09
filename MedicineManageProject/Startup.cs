@@ -80,6 +80,7 @@ namespace MedicineManageProject
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiHelp V1");
+              
             });
             #endregion
         }

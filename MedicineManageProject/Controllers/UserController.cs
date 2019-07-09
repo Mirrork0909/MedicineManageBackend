@@ -12,7 +12,7 @@ namespace MedicineManageProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController:ControllerBase
+    public class UserController : ControllerBase
     {
         [HttpPost("insert/customer")]
         public IActionResult insertNewCustomer([FromForm] CUSTOMER customer)
@@ -32,7 +32,7 @@ namespace MedicineManageProject.Controllers
 
         [HttpGet("get/all")]
         public IActionResult getAllUserInformation()
-        { 
+        {
             StaffManager staffManager = new StaffManager();
             CustomerManager customerManager = new CustomerManager();
             List<STAFF> staffs = staffManager.getAllStaffsInformation();

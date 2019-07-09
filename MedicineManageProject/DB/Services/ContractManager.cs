@@ -97,25 +97,56 @@ namespace MedicineManageProject.DB.Services
         /// 
         /// </summary>
         /// <param name="completeContractDTO"></param>
-        public void completeOneContract(CompleteContractDTO completeContractDTO)
+        public bool completeOneContract(CompleteContractDTO completeContractDTO)
         {
-            CONTRACT contract = Db.Queryable<CONTRACT>().InSingle(completeContractDTO._contract_id);
-            contract.CONTRACT_STATUS = 2;
-
-            List<CONTRACT_ITEM> list = Db.Queryable<CONTRACT_ITEM>().Where((it) => it.CONTRACT_ID == completeContractDTO._contract_id).ToList();
-            if (list != null)
+            try
             {
-                foreach(CONTRACT_ITEM t in list)
+
+                Db.Ado.BeginTran();
+                CONTRACT contract = Db.Queryable<CONTRACT>().InSingle(completeContractDTO._contract_id);
+                contract.CONTRACT_STATUS = 2;
+
+                List<CONTRACT_ITEM> list = Db.Queryable<CONTRACT_ITEM>().Where((it) => it.CONTRACT_ID == completeContractDTO._contract_id).ToList();
+                if (list != null)
                 {
-                    t.MEDICINE_STATUS = 2;
-                    Db.Updateable(t).ExecuteCommand();
+                    for (int i = 0; i < completeContractDTO.stockInDTOs.Count; i++)
+                    {
+                        list[i].MEDICINE_STATUS = 2;
+                        Db.Updateable(list[i]).ExecuteCommand();
+
+
+
+
+                        var isInStock = Db.Queryable<MEDICINE_STOCK>().Where((ms) => ms.MEDICINE_ID == completeContractDTO.stockInDTOs[i]._medicine_id
+                        && completeContractDTO.stockInDTOs[i]._batch_id == ms.BATCH_ID).First();
+                        if (isInStock == null)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            isInStock.AMOUNT += completeContractDTO.stockInDTOs[i]._in_num;
+                            Db.Updateable(isInStock).ExecuteCommand();
+                        }
+
+                        STOCK_IN stock_in = new STOCK_IN();
+                        stock_in.STOCK_ID = isInStock.STOCK_ID;
+                        stock_in.CONTRACT_ID = completeContractDTO._contract_id;
+                        stock_in.IN_NUM = completeContractDTO.stockInDTOs[i]._in_num;
+                        stock_in.IN_TIME = completeContractDTO.stockInDTOs[i]._in_time;
+                        Db.Insertable(stock_in).ExecuteCommand();
+                    }
                 }
+                Db.Ado.CommitTran();
+                return true;
+            }
+            catch(Exception e)
+            {
+                Db.Ado.RollbackTran();
+                return false;
             }
             
-            STOCK_IN stock_in = new STOCK_IN();
-            stock_in.CONTRACT_ID = completeContractDTO._contract_id;
-
-            stock_in.IN_TIME = new DateTime();
+            
             //stock_in.IN_NUM=contract.
         }
 
@@ -142,6 +173,7 @@ namespace MedicineManageProject.DB.Services
                     }
                 }
             }
+            list.Sort(new YMSortCompare());
             return list;
 
 

@@ -12,7 +12,7 @@ namespace MedicineManageProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerController:ControllerBase
+    public class CustomerController : ControllerBase
     {
         [HttpGet("all/num")]
         public IActionResult countAllCustomerNum()
@@ -25,6 +25,7 @@ namespace MedicineManageProject.Controllers
             int num = customerManager.getAllCustomerNum();
             return Ok(new JsonCreate { message = ConstMessage.GET_SUCCESS, data = num });
         }
+
 
         [HttpPost("register")]
         public IActionResult registerCustomer([FromForm] RegisterDTO registerDTO)
