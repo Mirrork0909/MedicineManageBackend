@@ -19,7 +19,7 @@ namespace MedicineManageProject.Controllers
         {
             CustomerManager customerManager = new CustomerManager();
             int num = customerManager.getAllCustomerNum();
-            return Ok(addDataToResult(ConstMessage.GET_SUCCESS, num));
+            return Ok(new JsonCreate { message = ConstMessage.GET_SUCCESS, data = num });
         }
 
         [HttpPost("register")]
@@ -49,13 +49,5 @@ namespace MedicineManageProject.Controllers
             return Ok(new JsonCreate() { message = result});
         }
 
-
-        public JsonCreate addDataToResult(String message,object data)
-        {
-            JsonCreate jsonCreate = new JsonCreate();
-            jsonCreate.message = message;
-            jsonCreate.data = data;
-            return jsonCreate;
-        }
     }
 }

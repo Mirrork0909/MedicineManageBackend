@@ -18,7 +18,7 @@ namespace MedicineManageProject.Controllers
         {
             SalesManager salesManager = new SalesManager();
             List<SalesDataDTO> salesData = salesManager.getSalesAmountByMonth();
-            return Ok(addDataToResult(ConstMessage.GET_SUCCESS,salesData));
+            return Ok(new JsonCreate { message = ConstMessage.GET_SUCCESS, data = salesData });
         }
         [HttpGet("records")]
         public IActionResult getTenSaleRecords()
@@ -27,19 +27,12 @@ namespace MedicineManageProject.Controllers
             List < SaleInformationDTO > saleRecords = salesManager.getSaleRecords();
             if (saleRecords != null)
             {
-                return Ok(addDataToResult(ConstMessage.GET_SUCCESS, saleRecords));
+                return Ok(new JsonCreate { message = ConstMessage.GET_SUCCESS,data = saleRecords });
             }
             else
             {
-                return Ok(addDataToResult(ConstMessage.NOT_FOUND, saleRecords));
+                return Ok(new JsonCreate { message = ConstMessage.NOT_FOUND, data = saleRecords });
             }
-        }
-        public JsonCreate addDataToResult(String message, object data)
-        {
-            JsonCreate jsonCreate = new JsonCreate();
-            jsonCreate.message = message;
-            jsonCreate.data = data;
-            return jsonCreate;
         }
     }
 }
