@@ -68,5 +68,17 @@ namespace MedicineManageProject.Controllers
                 return Conflict(new JsonCreate() { message = Utils.ConstMessage.CONFILICT, data = false });
             }
         }
+
+        [HttpGet("search/name/{keyword}")]
+        public IActionResult getMedicineListByKeyword(String keyword)
+        {
+            MedicineManager medicineManager = new MedicineManager();
+            List<MedicineSearchResultDTO> medicines = medicineManager.getMedicineListByKeyword(keyword);
+            return Ok(new JsonCreate
+            {
+                message = medicines!=null && medicines.Count >0 ?ConstMessage.GET_SUCCESS:ConstMessage.NOT_FOUND,
+                data = medicines
+            });
+        }
     }
 }

@@ -152,9 +152,9 @@ namespace MedicineManageProject.DB.Services
 
 
         //获取全部销售记录
-        public List<SaleInformationDTO> getAllSaleRecords()
+        public List<SaleInformationPlusDTO> getAllSaleRecords()
         {
-            var result = Db.Queryable<SALE_RECORD>().Select(it => new SaleInformationDTO
+            var result = Db.Queryable<SALE_RECORD>().Select(it => new SaleInformationPlusDTO
             {
                 _sale_id = it.SALE_ID,
                 _sale_date = it.SALE_DATE,
@@ -162,6 +162,10 @@ namespace MedicineManageProject.DB.Services
                 _sale_price = it.SALE_PRICE,
                 _customer_id = it.CUSTOMER_ID
             }).ToList();
+            foreach(var e in result)
+            {
+                e._is_return =  Db.Queryable<RETURN_RECORD>().Where(it=>it.SALE_ID == e._sale_id).First() == null ? false:true;
+            }
             return result;
         }
 
@@ -214,6 +218,20 @@ namespace MedicineManageProject.DB.Services
             }
             group.Sort();
             return group;
+        }
+        public List<SaleInformationDTO> getRecordsUnderCustomer(String customerId)
+        {
+            List<SaleInformationDTO> resultList = Db.Queryable<SALE_RECORD>().Where(it => it.CUSTOMER_ID == customerId)
+                .Select(it => new SaleInformationDTO
+                {
+                    _customer_id = it.CUSTOMER_ID,
+                    _sale_date = it.SALE_DATE,
+                    _sale_id = it.SALE_ID,
+                    _sale_price = it.SALE_PRICE,
+                    _staff_id = it.STAFF_ID
+                })
+                .ToList();
+            return resultList;
         }
 
     }

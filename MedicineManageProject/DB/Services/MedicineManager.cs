@@ -190,5 +190,28 @@ namespace MedicineManageProject.DB.Services
             return price;
         }
 
+        public List<MedicineSearchResultDTO> getMedicineListByKeyword(String keyword)
+        {
+            var results = Db.Queryable<MEDICINE_INFORMATION>()
+                .Where(mif => mif.MEDICINE_NAME.Contains(keyword)).ToList();
+            List<MedicineSearchResultDTO> medicineSearchResults = new List<MedicineSearchResultDTO>();
+            foreach(var e in results)
+            {
+                MedicineSearchResultDTO medicine = new MedicineSearchResultDTO();
+                medicine._medicine_id = e.MEDICINE_ID;
+                medicine._medicine_name = e.MEDICINE_NAME;
+                medicine._medicine_type = e.MEDICINE_TYPE;
+                medicine._medicine_ingredients = e.MEDICINE_INGREDIENTS;
+                medicine._medicine_character = e.MEDICINE_CHARACTER;
+                medicine._medicine_applicability = e.MEDICINE_APPLICABILITY;
+                medicine._medicine_usage = e.MEDICINE_USAGE;
+                medicine._medicine_attention = e.MEDICINE_ATTENTION;
+                medicine._max_purchase_price = Db.Queryable<MEDICINE_INSTANCE>().Where(it => it.MEDICINE_ID == e.MEDICINE_ID).Max(it => it.SALE_PRICE);
+                medicine._min_purchase_price = Db.Queryable<MEDICINE_INSTANCE>().Where(it => it.MEDICINE_ID == e.MEDICINE_ID).Min(it => it.SALE_PRICE);
+                medicineSearchResults.Add(medicine);
+            }
+            return medicineSearchResults;
+        }
+
     }
 }
