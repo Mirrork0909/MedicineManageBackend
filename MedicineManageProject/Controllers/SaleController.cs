@@ -42,11 +42,11 @@ namespace MedicineManageProject.Controllers
             bool judge = salesManager.purchase(purchaseDTO);
             if (judge)
             {
-                return Ok(addDataToResult(ConstMessage.INSERT_SUCCESS, judge));
+                return Ok(JsonCreate.newInstance(ConstMessage.INSERT_SUCCESS, judge));
             }
             else
             {
-                return Conflict(addDataToResult(ConstMessage.CONFILICT, judge));
+                return Conflict(JsonCreate.newInstance(ConstMessage.CONFILICT, judge));
             }
         }
 
@@ -55,7 +55,7 @@ namespace MedicineManageProject.Controllers
         {
             SalesManager salesManager = new SalesManager();
             object result = salesManager.getAllSaleRecords();
-            return Ok(addDataToResult(ConstMessage.GET_SUCCESS, result));
+            return Ok(JsonCreate.newInstance(ConstMessage.GET_SUCCESS, result));
         }
 
        [HttpGet("records/{saleId}")]
@@ -63,16 +63,10 @@ namespace MedicineManageProject.Controllers
         {
             SalesManager salesManager = new SalesManager();
             object result = salesManager.getAllOrderItemOfOneSaleInfo(saleId);
-            return Ok(addDataToResult(ConstMessage.GET_SUCCESS, result));
+            return Ok(JsonCreate.newInstance(ConstMessage.GET_SUCCESS, result));
         }
 
 
-        public JsonCreate addDataToResult(String message, object data)
-        {
-            JsonCreate jsonCreate = new JsonCreate();
-            jsonCreate.message = message;
-            jsonCreate.data = data;
-            return jsonCreate;
-        }
+        
     }
 }
