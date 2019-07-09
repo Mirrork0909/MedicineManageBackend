@@ -7,7 +7,7 @@ namespace MedicineManageProject.DTO
 {
     public class SupplierDTO
     {
-        public decimal _supplier_id { get; set; }
+        public int _supplier_id { get; set; }
 
         public string _name { get; set; }
 

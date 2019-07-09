@@ -29,13 +29,14 @@ namespace MedicineManageProject.DB.Services
 
         public List<MedicineBySupplierDTO> getAllMedicineBySupplier(int id)
         {
-            //List<MedicineBySupplierDTO> list= Db.Queryable<MEDICINE_INFORMATION>()
-            //    .Where((minfo) => minfo.SUPPLIER_ID == id).Select((minfo) => new MedicineBySupplierDTO
-            //    {
-            //        _medicine_id = minfo.MEDICINE_ID,
-            //        _medicine_name = minfo.MEDICINE_NAME,
-            //    }).ToList();
-            return null;
+            List<MedicineBySupplierDTO> list = Db.Queryable<MEDICINE_INFORMATION>()
+                .Where((minfo) => minfo.SUPPLIER_ID == id).Select((minfo) => new MedicineBySupplierDTO
+                {
+                    _medicine_id = minfo.MEDICINE_ID,
+                    _medicine_name = minfo.MEDICINE_NAME,
+                }).ToList();
+            
+            return list;
         }
         public List<MedicineTypeBySupplierDTO> getMedicineGroupBySupplier()
         {
@@ -53,6 +54,67 @@ namespace MedicineManageProject.DB.Services
             }
 
             return group;
+        }
+
+        public SupplierDTO createSupplier(SupplierDTO supplierDTO)
+        {
+            try
+            {
+                Db.Ado.BeginTran();
+
+                SUPPLIER supplier = new SUPPLIER();
+                supplier.NAME = supplierDTO._name;
+                supplier.PHONE = supplierDTO._phone;
+                supplier.CREDIT_LEVEL = supplierDTO._credit_level;
+
+                Db.Insertable(supplier).IgnoreColumns(it => new { it.SUPPLIER_ID }).ExecuteCommand();
+
+                var cid = Db.Ado.SqlQuery<int>("select ISEQ$$_75582.currval from dual");
+                var id = cid[0];
+              
+                Db.Ado.CommitTran();
+                supplierDTO._supplier_id = id;
+                return supplierDTO;
+            }        
+            catch(Exception e)
+            {
+                Db.Ado.RollbackTran();
+                return null;
+            }
+        }
+
+        public bool updateSupplier(SupplierDTO supplierDTO)
+        {
+            SUPPLIER s = Db.Queryable<SUPPLIER>().InSingle(supplierDTO._supplier_id);
+            if (s == null)
+            {
+                return false;
+            }
+            s.NAME = supplierDTO._name;
+            s.PHONE = supplierDTO._phone;
+            s.CREDIT_LEVEL = supplierDTO._credit_level;
+            Db.Updateable(s).ExecuteCommand();
+            return true;
+        }
+
+        public bool deleteSupplier(int id)
+        {
+            try
+            {
+                var t3 = Db.Deleteable<SUPPLIER>().In(id).ExecuteCommand();
+                if (t3 == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
         }
 
     }
