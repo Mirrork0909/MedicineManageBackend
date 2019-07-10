@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MedicineManageProject.DTO
 {
-    public class SaleInformationPlusDTO
+    public class SaleInformationPlusDTO:IComparable
     {
         public decimal _sale_id { get; set; }
 
@@ -18,5 +18,11 @@ namespace MedicineManageProject.DTO
         public decimal _sale_price { get; set; }
 
         public bool _is_return { get; set; }
+
+        public int CompareTo(object obj)//实现接口
+        {
+            SaleInformationPlusDTO temp = (SaleInformationPlusDTO)obj;
+            return temp._sale_date.CompareTo(this._sale_date);
+        }
     }
 }

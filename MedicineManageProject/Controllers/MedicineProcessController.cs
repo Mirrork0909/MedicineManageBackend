@@ -15,6 +15,11 @@ namespace MedicineManageProject.Controllers
     [ApiController]
     public class MedicineProcessController : ControllerBase
     {
+        /// <summary>
+        /// 问题药品退回
+        /// </summary>
+        /// <param name="processDTO"></param>
+        /// <returns></returns>
         [HttpPost("problemMedicine")]
         public IActionResult processProblemMedicine([FromForm] ProcessDTO processDTO)
         {
@@ -30,7 +35,11 @@ namespace MedicineManageProject.Controllers
             }
         }
 
-
+        /// <summary>
+        /// 过期药品处理
+        /// </summary>
+        /// <param name="processDTO"></param>
+        /// <returns></returns>
         [HttpPost("expiredMedicine")]
         public IActionResult processExpiredMedicine([FromForm] ProcessDTO processDTO)
         {

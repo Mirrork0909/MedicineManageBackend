@@ -14,6 +14,10 @@ namespace MedicineManageProject.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
+        /// <summary>
+        /// 获得当前用户数量
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("all/num")]
         public IActionResult countAllCustomerNum()
         {
@@ -26,14 +30,22 @@ namespace MedicineManageProject.Controllers
             return Ok(new JsonCreate { message = ConstMessage.GET_SUCCESS, data = num });
         }
 
-
+        /// <summary>
+        /// 顾客注册
+        /// </summary>
+        /// <param name="registerDTO"></param>
+        /// <returns></returns>
         [HttpPost("register")]
         public IActionResult registerCustomer([FromForm] RegisterDTO registerDTO)
         {
             CustomerManager customerManager = new CustomerManager();
             return Ok(new JsonCreate { message = customerManager.createCustomer(registerDTO) });
         }
-
+        /// <summary>
+        /// 顾客登录
+        /// </summary>
+        /// <param name="loginDTO"></param>
+        /// <returns></returns>
         [HttpPost("login")]
         public IActionResult loginAccount([FromForm] LoginDTO loginDTO)
         {
@@ -47,6 +59,7 @@ namespace MedicineManageProject.Controllers
             else if (loginDTO._id != null)
             {
                 result = customerManager.verifyPasswordAndId(loginDTO._id, loginDTO._password);
+                
             }
             else
             {

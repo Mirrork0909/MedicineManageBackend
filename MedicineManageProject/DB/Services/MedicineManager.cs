@@ -158,8 +158,7 @@ namespace MedicineManageProject.DB.Services
             {
                 Db.Ado.BeginTran();
                 MEDICINE_INFORMATION medicineInformation = new MEDICINE_INFORMATION()
-                {
-                    MEDICINE_ID = medicineDTO._medicine_id,
+                { 
                     MEDICINE_APPLICABILITY = medicineDTO._medicine_applicability,
                     MEDICINE_CHARACTER = medicineDTO._medicine_character,
                     MEDICINE_ATTENTION = medicineDTO._medicine_attention,

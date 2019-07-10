@@ -14,6 +14,11 @@ namespace MedicineManageProject.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        /// <summary>
+        /// 仅用于后端测试
+        /// </summary>
+        /// <param name="customer"></param>
+        /// <returns></returns>
         [HttpPost("insert/customer")]
         public IActionResult insertNewCustomer([FromForm] CUSTOMER customer)
         {
@@ -21,7 +26,11 @@ namespace MedicineManageProject.Controllers
             customerManager.insertCustomer(customer);
             return Ok(new JsonCreate());
         }
-
+        /// <summary>
+        /// 仅用于后端测试
+        /// </summary>
+        /// <param name="staff"></param>
+        /// <returns></returns>
         [HttpPost("insert/staff")]
         public IActionResult insertNewStaff([FromForm]STAFF staff)
         {
@@ -29,7 +38,10 @@ namespace MedicineManageProject.Controllers
             staffManager.insertStaff(staff);
             return Ok(new JsonCreate());
         }
-
+        /// <summary>
+        /// 获取所有用户信息(包括员工和顾客)
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("get/all")]
         public IActionResult getAllUserInformation()
         {
@@ -39,7 +51,11 @@ namespace MedicineManageProject.Controllers
             List<CUSTOMER> customers = customerManager.getAllCustomersInformation();
             return Ok(UserMergeUtil.addDataToResult(staffs,customers));
         }
-
+        /// <summary>
+        /// 获取用户信息Byname
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         [HttpGet("get/{name}")]
         public IActionResult getUserInformation(String name)
         {

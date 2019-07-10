@@ -109,8 +109,7 @@ namespace MedicineManageProject.DB.Services
                         && it.BATCH_ID == orderItem._batch_id)).Single();
                     if(stock.AMOUNT < orderItem._sale_num)
                     {
-                        Db.Ado.RollbackTran();
-                        return false;
+                        throw new Exception();
                     }
                     else
                     {
@@ -150,6 +149,52 @@ namespace MedicineManageProject.DB.Services
             }
         }
 
+        // 退货操作
+        public bool backRecords(Decimal saleId)
+        {
+            try
+            {
+                Db.Ado.BeginTran();
+                DateTime dateTime = DateTime.Now;
+                var orderItemList = Db.Queryable<SALE_RECORD_ITEM>()
+                    .Where(it => it.SALE_ID == saleId).ToList();
+                var saleRecord = Db.Queryable<SALE_RECORD>().Where(it => it.SALE_ID == saleId).Single();
+                if(orderItemList == null || saleRecord == null)
+                {
+                    throw new Exception();
+                }
+                foreach(SALE_RECORD_ITEM item in orderItemList)
+                {
+                    RETURN_RECORD returnRecord = new RETURN_RECORD
+                    {
+                        SALE_ID = saleRecord.SALE_ID,
+                        BACK_NUM = item.SALE_NUM,
+                        BACK_DATE = dateTime,
+                        CUSTOMER_ID = saleRecord.CUSTOMER_ID,
+                        STAFF_ID = saleRecord.STAFF_ID,
+                        ORDER_ID = item.ORDER_ID
+                    };
+
+                    var itemStock = Db.Queryable<MEDICINE_STOCK>()
+                        .Where(it => it.MEDICINE_ID == item.MEDICINE_ID && it.BATCH_ID == item.BATCH_ID)
+                        .Single();
+
+                    itemStock.AMOUNT += item.SALE_NUM;
+                    Db.Updateable(itemStock).ExecuteCommand();
+                    Db.Insertable(returnRecord).IgnoreColumns(it => new { it.RETURN_ID }).ExecuteCommand();
+                }
+
+                Db.Ado.CommitTran();
+                return true;
+                
+            }catch(Exception e)
+            {
+                Db.Ado.RollbackTran();
+                return false;
+            }
+        }
+
+
 
         //获取全部销售记录
         public List<SaleInformationPlusDTO> getAllSaleRecords()
@@ -166,7 +211,9 @@ namespace MedicineManageProject.DB.Services
             {
                 e._is_return =  Db.Queryable<RETURN_RECORD>().Where(it=>it.SALE_ID == e._sale_id).First() == null ? false:true;
             }
-            return result;
+            List<SaleInformationPlusDTO> list = result;
+            list.Sort();
+            return list;
         }
 
 
@@ -231,6 +278,7 @@ namespace MedicineManageProject.DB.Services
                     _staff_id = it.STAFF_ID
                 })
                 .ToList();
+            resultList.Sort();
             return resultList;
         }
 

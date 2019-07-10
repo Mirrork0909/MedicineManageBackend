@@ -14,6 +14,11 @@ namespace MedicineManageProject.Controllers
     [ApiController]
     public class StaffController:ControllerBase
     {
+        /// <summary>
+        /// 更新员工信息
+        /// </summary>
+        /// <param name="newStaffInformaiton"></param>
+        /// <returns></returns>
         [HttpPost("update/information")]
         public IActionResult updateStaffInformation([FromForm] StaffInformaitonDTO newStaffInformaiton)
         {
@@ -22,9 +27,23 @@ namespace MedicineManageProject.Controllers
                 newStaffInformaiton._name, newStaffInformaiton._phone);
             JsonCreate jsonResult = new JsonCreate();
             jsonResult.message = isSuccess ? ConstMessage.UPDATE_SUCCESS : ConstMessage.UPDATE_FAIL;
-            jsonResult.data = isSuccess;
+            STAFF staff = staffManager.getStaffInformation(newStaffInformaiton._id);
+            if (staff != null)
+            {
+                StaffInformaitonDTO staffInformation = new StaffInformaitonDTO();
+                staffInformation._id = staff.STAFF_ID;
+                staffInformation._name = staff.NAME;
+                staffInformation._phone = staff.PHONE;
+                staffInformation._position = staff.POSITION;
+                jsonResult.data = staffInformation;
+            }
             return Ok(jsonResult);
         }
+        /// <summary>
+        /// 修改员工密码
+        /// </summary>
+        /// <param name="staff"></param>
+        /// <returns></returns>
         [HttpPost("update/password")]
         public IActionResult updatePassword([FromForm]StaffInformaitonDTO staff) 
         {
@@ -35,6 +54,11 @@ namespace MedicineManageProject.Controllers
             jsonResult.data = isSuccess;
             return Ok(jsonResult);
         }
+        /// <summary>
+        /// 获取员工个人信息ById
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public IActionResult getStaffInformation(String id)
         {
@@ -46,6 +70,7 @@ namespace MedicineManageProject.Controllers
                 StaffInformaitonDTO staffInformation = new StaffInformaitonDTO();
                 staffInformation._name = staff.NAME;
                 staffInformation._phone = staff.PHONE;
+                staffInformation._position = staff.POSITION;
                 jsonResult.message = ConstMessage.GET_SUCCESS;
                 jsonResult.data = staffInformation;
                 return Ok(jsonResult);
@@ -62,6 +87,11 @@ namespace MedicineManageProject.Controllers
             StaffManager staffManager = new StaffManager();
             return Ok(new JsonCreate { message = staffManager.createStaff(registerDTO) });
         }
+        /// <summary>
+        /// 员工登录
+        /// </summary>
+        /// <param name="loginDTO"></param>
+        /// <returns></returns>
         [HttpPost("login")]
         public IActionResult loginAccount([FromForm] LoginDTO loginDTO)
         {

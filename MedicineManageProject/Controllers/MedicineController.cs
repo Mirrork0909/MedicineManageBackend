@@ -10,10 +10,16 @@ using MedicineManageProject.Utils;
 
 namespace MedicineManageProject.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class MedicineController : ControllerBase
     {
+        /// <summary>
+        /// 新建一个药品信息
+        /// </summary>
+        /// <param name="medicine"></param>
+        /// <returns></returns>
         [HttpPost("insert")]
         public IActionResult insertNewMedicineInfo([FromForm] MedicineDTO medicine)
         {
@@ -33,7 +39,10 @@ namespace MedicineManageProject.Controllers
             }
         }
 
-
+        /// <summary>
+        /// 获得所有药品相关信息
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("Info/all")]
         public IActionResult getMedicineInfoAll()
         {
@@ -42,6 +51,12 @@ namespace MedicineManageProject.Controllers
             return Ok(new JsonCreate { message = ConstMessage.GET_SUCCESS, data = result });
         }
 
+        /// <summary>
+        /// 根据药品编号和批号获取信息
+        /// </summary>
+        /// <param name="medicineId"></param>
+        /// <param name="batchId"></param>
+        /// <returns></returns>
         [HttpGet("Info/{medicineId}/{batchId}")]
         public IActionResult getMedicinInfoById(String medicineId,String batchId)
         {
@@ -50,6 +65,11 @@ namespace MedicineManageProject.Controllers
             return Ok(new JsonCreate { message = ConstMessage.GET_SUCCESS, data = result });
         }
 
+        /// <summary>
+        /// 更新药品信息
+        /// </summary>
+        /// <param name="medicine"></param>
+        /// <returns></returns>
         [HttpPost("update")]
         public IActionResult updateMedicineInfo([FromForm] MedicineDTO medicine)
         {
@@ -68,7 +88,11 @@ namespace MedicineManageProject.Controllers
                 return Conflict(new JsonCreate() { message = Utils.ConstMessage.CONFILICT, data = false });
             }
         }
-
+        /// <summary>
+        /// 按名称关键字搜索药品信息
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <returns></returns>
         [HttpGet("search/name/{keyword}")]
         public IActionResult getMedicineListByKeyword(String keyword)
         {
