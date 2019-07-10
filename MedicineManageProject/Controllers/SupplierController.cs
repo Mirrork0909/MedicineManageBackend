@@ -67,7 +67,7 @@ namespace MedicineManageProject.Controllers
         {
             SupplierManager supplierManager = new SupplierManager();
             SupplierDTO temp = supplierManager.createSupplier(supplierDTO);
-            if (supplierDTO != null)
+            if (temp != null)
             {
                 return Ok(new JsonCreate() { message = Utils.ConstMessage.INSERT_SUCCESS, data = temp });
             }
