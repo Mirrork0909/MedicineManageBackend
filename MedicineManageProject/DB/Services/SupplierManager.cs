@@ -130,5 +130,25 @@ namespace MedicineManageProject.DB.Services
             }
         }
 
+        public SupplierDTO getSupplierByContractId(int contractId)
+        {
+            try
+            {
+                CONTRACT contract = Db.Queryable<CONTRACT>().InSingle(contractId);
+                SUPPLIER supplier = Db.Queryable<SUPPLIER>().InSingle(contract.SUPPLIER_ID);
+                SupplierDTO supplierDTO = new SupplierDTO();
+                supplierDTO._supplier_id = supplier.SUPPLIER_ID;
+                supplierDTO._name = supplier.NAME;
+                supplierDTO._phone = supplier.PHONE;
+                supplierDTO._credit_level = supplier.CREDIT_LEVEL;
+                return supplierDTO;
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
+            
+        }
+
     }
 }

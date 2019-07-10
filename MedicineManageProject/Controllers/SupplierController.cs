@@ -67,7 +67,7 @@ namespace MedicineManageProject.Controllers
         {
             SupplierManager supplierManager = new SupplierManager();
             SupplierDTO temp = supplierManager.createSupplier(supplierDTO);
-            if (supplierDTO != null)
+            if (temp != null)
             {
                 return Ok(new JsonCreate() { message = Utils.ConstMessage.INSERT_SUCCESS, data = temp });
             }
@@ -134,6 +134,26 @@ namespace MedicineManageProject.Controllers
                 return Ok(new JsonCreate() { message = Utils.ConstMessage.NOT_FOUND, data = false });
             }
         }
+        /// <summary>
+        /// 通过合同id得到供应商的信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("contractId/{id}")]
+        public IActionResult getSupplierByContractId(int id)
+        {
+            SupplierManager supplierManager = new SupplierManager();
+            SupplierDTO s = supplierManager.getSupplierByContractId(id);
+            if (s != null)
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.GET_SUCCESS, data = s });
+            }
+            else
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.NOT_FOUND, data = null });
+            }
+        }
+
 
 
     }
