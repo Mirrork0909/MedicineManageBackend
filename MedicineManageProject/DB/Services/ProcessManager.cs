@@ -85,7 +85,7 @@ namespace MedicineManageProject.DB.Services
                 Db.Insertable(expiredMedicine).ExecuteCommand();
 
                 tempResult.AMOUNT = 0;
-                Db.Updateable(expiredMedicine).ExecuteCommand();
+                Db.Updateable(tempResult).ExecuteCommand();
 
 
 

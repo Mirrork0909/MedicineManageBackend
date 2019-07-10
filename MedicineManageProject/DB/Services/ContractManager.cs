@@ -126,7 +126,8 @@ namespace MedicineManageProject.DB.Services
                 }
                 foreach(StockInDTO stockInDTO in completeContractDTO.stockInDTOs) {
                     CONTRACT_ITEM contractItem = Db.Queryable<CONTRACT_ITEM>().
-                        Where((it) => it.MEDICINE_ID == stockInDTO._medicine_id).Single();
+                        Where((it) => it.MEDICINE_ID == stockInDTO._medicine_id 
+                        && it.CONTRACT_ID == completeContractDTO._contract_id).Single();
                     if(contractItem.MEDICINE_STATUS == 2)
                     {
                         continue;

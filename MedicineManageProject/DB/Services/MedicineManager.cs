@@ -171,7 +171,7 @@ namespace MedicineManageProject.DB.Services
                     MEDICINE_IMAGE = medicineDTO._medicine_image
                 };
 
-                Db.Updateable(medicineInformation);
+                Db.Updateable(medicineInformation).ExecuteCommand();
 
                 Db.Ado.CommitTran();
                 return true;
