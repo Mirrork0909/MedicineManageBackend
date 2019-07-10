@@ -15,6 +15,8 @@ namespace MedicineManageProject.DTO
         public String _medicine_applicability { set; get; }
         public String _medicine_usage { set; get; }
         public String _medicine_attention { set; get; }
+        public Decimal _supplier_id { get; set; }
+        public String _medicine_image { set; get; }
         public decimal _max_purchase_price { set; get; }
         public decimal _min_purchase_price { set; get; }
     }

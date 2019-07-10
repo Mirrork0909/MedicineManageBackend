@@ -81,7 +81,7 @@ namespace MedicineManageProject.Controllers
             bool judge = medicineManager.updateMedicineInfo(medicine);
             if (judge)
             {
-                return Ok(new JsonCreate() { message = Utils.ConstMessage.INSERT_SUCCESS, data = true });
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.UPDATE_SUCCESS, data = true });
             }
             else
             {

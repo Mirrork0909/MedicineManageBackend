@@ -21,9 +21,23 @@ namespace MedicineManageProject.DB.Services
         {
             return Db.Queryable<STAFF>().ToList();
         }
-        public STAFF getStaffInformation(String id)
+        public StaffInformaitonDTO getStaffInformationById(String id)
         {
-            return Db.Queryable<STAFF>().InSingle(id);
+            STAFF staff = Db.Queryable<STAFF>().InSingle(id);
+            if (staff != null)
+            {
+                return convertStaffToDto(staff);
+            }
+            return null;
+        }
+        public StaffInformaitonDTO getStaffInformationByPhone(String phone)
+        {
+            STAFF staff = Db.Queryable<STAFF>().Where(it=>it.PHONE == phone).First();
+            if (staff != null)
+            {
+                return convertStaffToDto(staff);
+            }
+            return null;
         }
 
         public List<STAFF> getStaffInformationByName(string name)
@@ -124,6 +138,15 @@ namespace MedicineManageProject.DB.Services
             staff.SIGN_DATE = DateTime.Now;
             Db.Insertable(staff).ExecuteCommand();
             return AccountConstMessage.REGISTER_SUCCESS;
+        }
+        public StaffInformaitonDTO convertStaffToDto(STAFF staff)
+        {
+            StaffInformaitonDTO staffInformaiton = new StaffInformaitonDTO();
+            staffInformaiton._id = staff.STAFF_ID;
+            staffInformaiton._name = staff.NAME;
+            staffInformaiton._phone = staff.PHONE;
+            staffInformaiton._position = staff.POSITION;
+            return staffInformaiton;
         }
 
     }

@@ -52,20 +52,22 @@ namespace MedicineManageProject.Controllers
             SessionUtil.addTokenToSession(this.HttpContext,loginDTO._id==null?loginDTO._phone:loginDTO._id);
             CustomerManager customerManager = new CustomerManager();
             String result = "";
+            CustomerInformationDTO customerInformation = new CustomerInformationDTO();
             if (loginDTO._phone != null)
             {
                 result = customerManager.verifyPasswordAndPhone(loginDTO._phone, loginDTO._password);
+                customerInformation = customerManager.getCustomerByPhone(loginDTO._phone);
             }
             else if (loginDTO._id != null)
             {
                 result = customerManager.verifyPasswordAndId(loginDTO._id, loginDTO._password);
-                
+                customerInformation = customerManager.getCustomerById(loginDTO._id);
             }
             else
             {
                 result = ConstMessage.NOT_FOUND;
             }
-            return Ok(new JsonCreate() { message = result});
+            return Ok(new JsonCreate() { message = result,data = customerInformation});
         }
 
     }
