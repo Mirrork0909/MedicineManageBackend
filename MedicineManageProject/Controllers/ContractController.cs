@@ -14,6 +14,11 @@ namespace MedicineManageProject.Controllers
     [ApiController]
     public class ContractController:ControllerBase
     {
+
+        /// <summary>
+        /// 得到所有合同的信息
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("all")]
         public IActionResult getContractAll()
         {          
@@ -30,7 +35,11 @@ namespace MedicineManageProject.Controllers
             //return Ok(contractManager.getAllContractInformation());
         }
 
-
+        /// <summary>
+        /// 得到某个合同的所有子项信息
+        /// </summary>
+        /// <param name="contractItemId"></param>
+        /// <returns></returns>
         [HttpGet("{contractItemId}")]
         public IActionResult getOneContractItem(int contractItemId)
         {
@@ -49,6 +58,11 @@ namespace MedicineManageProject.Controllers
         }
 
 
+        /// <summary>
+        /// 添加一个新的合同
+        /// </summary>
+        /// <param name="contractDTO"></param>
+        /// <returns></returns>
         [HttpPost("insert")]
         public IActionResult insertNewContract(ContractDTO contractDTO)
         {
@@ -69,6 +83,11 @@ namespace MedicineManageProject.Controllers
             }
         }
 
+        /// <summary>
+        /// 完成某个合同及其所有子项，添加药品入库
+        /// </summary>
+        /// <param name="completeContractDTO"></param>
+        /// <returns></returns>
         [HttpPost("update")]
         public IActionResult completeOneContract(CompleteContractDTO completeContractDTO)
         {
@@ -84,6 +103,10 @@ namespace MedicineManageProject.Controllers
             }
         }
 
+        /// <summary>
+        /// 按月份分组，得到每个月签订的所有合同的总金额
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("cost/month")]
         public IActionResult getSumCostByMonth()
         {
