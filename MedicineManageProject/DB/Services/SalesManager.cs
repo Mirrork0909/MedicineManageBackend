@@ -109,8 +109,7 @@ namespace MedicineManageProject.DB.Services
                         && it.BATCH_ID == orderItem._batch_id)).Single();
                     if(stock.AMOUNT < orderItem._sale_num)
                     {
-                        Db.Ado.RollbackTran();
-                        return false;
+                        throw new Exception();
                     }
                     else
                     {
@@ -212,7 +211,9 @@ namespace MedicineManageProject.DB.Services
             {
                 e._is_return =  Db.Queryable<RETURN_RECORD>().Where(it=>it.SALE_ID == e._sale_id).First() == null ? false:true;
             }
-            return result;
+            List<SaleInformationPlusDTO> list = result;
+            list.Sort();
+            return list;
         }
 
 
@@ -277,6 +278,7 @@ namespace MedicineManageProject.DB.Services
                     _staff_id = it.STAFF_ID
                 })
                 .ToList();
+            resultList.Sort();
             return resultList;
         }
 

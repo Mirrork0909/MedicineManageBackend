@@ -71,7 +71,7 @@ namespace MedicineManageProject.DB.Services
                     SUPPLIER_ID = contractDTO._supplier_id,
                     CONTRACT_STATUS = 0,
                     STAFF_ID = contractDTO._staff_id,
-                    //SIGN_DATE = contractDTO._sign_date
+                    SIGN_DATE = DateTime.Now,
                 };
                 Db.Insertable(contract).IgnoreColumns(it => new {it.CONTRACT_ID }).ExecuteCommand();
 
@@ -91,6 +91,10 @@ namespace MedicineManageProject.DB.Services
                         };
                         Db.Insertable(contractItem).ExecuteCommand();
                     }
+                }
+                else
+                {
+                    throw new Exception();
                 }
                 Db.Ado.CommitTran();
                 contractDTO._contract_id = id;
@@ -218,7 +222,7 @@ namespace MedicineManageProject.DB.Services
                 {
                     _year = c.SIGN_DATE.Year,
                     _month = c.SIGN_DATE.Month,
-                    _cost = ci.MEDICINE_MONEY
+                    _cost = ci.MEDICINE_MONEY * ci.MEDICINE_AMOUNT,
                 }).ToList();
             //分组
             for (int i = 0; i < list.Count; i++)
