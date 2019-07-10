@@ -13,6 +13,10 @@ namespace MedicineManageProject.Controllers
     [ApiController]
     public class SaleController : ControllerBase
     {
+        /// <summary>
+        /// 按年月分组获得每月的销售额
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("all/amount/month")]
         public IActionResult getSaleAmountByMonth()
         {
@@ -20,6 +24,10 @@ namespace MedicineManageProject.Controllers
             List<SalesDataByMonthDTO> salesData = salesManager.getSalesAmountByMonth();
             return Ok(new JsonCreate { message = ConstMessage.GET_SUCCESS, data = salesData });
         }
+        /// <summary>
+        /// 获取前10条订单
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("ten/records")]
         public IActionResult getTenSaleRecords()
         {
@@ -49,7 +57,10 @@ namespace MedicineManageProject.Controllers
                 return Conflict(JsonCreate.newInstance(ConstMessage.CONFILICT, judge));
             }
         }
-
+        /// <summary>
+        /// 获取所有销售订单（包含是否退货）
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("all/records")]
         public IActionResult getAllRecords()
         {
@@ -65,7 +76,10 @@ namespace MedicineManageProject.Controllers
             object result = salesManager.getAllOrderItemOfOneSaleInfo(saleId);
             return Ok(JsonCreate.newInstance(ConstMessage.GET_SUCCESS, result));
         }
-
+        /// <summary>
+        /// 获取所有药品的销量信息
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("all/medicine/salesRecord")]
         public IActionResult getAllMedicinSalesData()
         {
@@ -73,11 +87,16 @@ namespace MedicineManageProject.Controllers
             List<MedicineSaleDataDTO> medicineSaleDatas  = salesManager.getAllMedicineSaleData();
             return Ok(new JsonCreate { message = ConstMessage.GET_SUCCESS, data = medicineSaleDatas });
         }
+        /// <summary>
+        /// 获取某顾客的所有订单
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns></returns>
         [HttpGet("records/customer/{customerId}")]
-        public IActionResult getRecordUnderCustomer(String customId)
+        public IActionResult getRecordUnderCustomer(String customerId)
         {
             SalesManager salesManager = new SalesManager();
-            List<SaleInformationDTO> saleInformationDTOs = salesManager.getRecordsUnderCustomer(customId);
+            List<SaleInformationDTO> saleInformationDTOs = salesManager.getRecordsUnderCustomer(customerId);
             return Ok(new JsonCreate { message = saleInformationDTOs != null && saleInformationDTOs.Count > 0 ? ConstMessage.GET_SUCCESS : ConstMessage.NOT_FOUND, data = saleInformationDTOs });
         }
         

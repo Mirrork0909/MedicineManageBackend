@@ -68,7 +68,11 @@ namespace MedicineManageProject.Controllers
                 return Conflict(new JsonCreate() { message = Utils.ConstMessage.CONFILICT, data = false });
             }
         }
-
+        /// <summary>
+        /// 按名称关键字搜索药品信息
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <returns></returns>
         [HttpGet("search/name/{keyword}")]
         public IActionResult getMedicineListByKeyword(String keyword)
         {
