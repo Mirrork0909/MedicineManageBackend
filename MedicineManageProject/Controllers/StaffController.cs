@@ -27,16 +27,8 @@ namespace MedicineManageProject.Controllers
                 newStaffInformaiton._name, newStaffInformaiton._phone);
             JsonCreate jsonResult = new JsonCreate();
             jsonResult.message = isSuccess ? ConstMessage.UPDATE_SUCCESS : ConstMessage.UPDATE_FAIL;
-            STAFF staff = staffManager.getStaffInformation(newStaffInformaiton._id);
-            if (staff != null)
-            {
-                StaffInformaitonDTO staffInformation = new StaffInformaitonDTO();
-                staffInformation._id = staff.STAFF_ID;
-                staffInformation._name = staff.NAME;
-                staffInformation._phone = staff.PHONE;
-                staffInformation._position = staff.POSITION;
-                jsonResult.data = staffInformation;
-            }
+            StaffInformaitonDTO staffInformation = staffManager.getStaffInformationById(newStaffInformaiton._id);
+            jsonResult.data = staffInformation;
             return Ok(jsonResult);
         }
         /// <summary>
@@ -64,13 +56,9 @@ namespace MedicineManageProject.Controllers
         {
             JsonCreate jsonResult = new JsonCreate();
             StaffManager staffManager = new StaffManager();
-            STAFF staff = staffManager.getStaffInformation(id);
-            if (staff != null)
+            StaffInformaitonDTO staffInformation = staffManager.getStaffInformationById(id);
+            if (staffInformation != null)
             {
-                StaffInformaitonDTO staffInformation = new StaffInformaitonDTO();
-                staffInformation._name = staff.NAME;
-                staffInformation._phone = staff.PHONE;
-                staffInformation._position = staff.POSITION;
                 jsonResult.message = ConstMessage.GET_SUCCESS;
                 jsonResult.data = staffInformation;
                 return Ok(jsonResult);
@@ -98,19 +86,22 @@ namespace MedicineManageProject.Controllers
             SessionUtil.addTokenToSession(this.HttpContext, loginDTO._id == null ? loginDTO._phone : loginDTO._id);
              StaffManager  staffManager = new  StaffManager();
             String result = "";
+            StaffInformaitonDTO staffInformaiton = new StaffInformaitonDTO();
             if (loginDTO._phone != null)
             {
                 result =  staffManager.verifyPasswordAndPhone(loginDTO._phone, loginDTO._password);
+                staffInformaiton = staffManager.getStaffInformationByPhone(loginDTO._phone);
             }
             else if (loginDTO._id != null)
             {
                 result =  staffManager.verifyPasswordAndId(loginDTO._id, loginDTO._password);
+                staffInformaiton = staffManager.getStaffInformationById(loginDTO._id);
             }
             else
             {
                 result = ConstMessage.NOT_FOUND;
             }
-            return Ok(new JsonCreate() { message = result });
+            return Ok(new JsonCreate() { message = result,data = staffInformaiton });
         }
 
 

@@ -9,18 +9,48 @@ using System.Threading.Tasks;
 
 namespace MedicineManageProject.DB.Services
 {
-    public class CustomerManager:DBContext
+    public class CustomerManager : DBContext
     {
         static int BY_PHONE = 0;
         static int BY_ID = 1;
         public List<CUSTOMER> getAllCustomersInformation()
-        { 
+        {
             return Db.Queryable<CUSTOMER>().ToList();
         }
         public int getAllCustomerNum()
         {
             return Db.Queryable<CUSTOMER>().Count();
         }
+
+        public CustomerInformationDTO getCustomerByPhone(String phone)
+        {
+            CUSTOMER customer = Db.Queryable<CUSTOMER>().Where(it => it.PHONE == phone).First();
+           
+            if (customer != null)
+            {
+                return convertCustomerToDto(customer);
+            }
+            return null;
+        }
+        public CustomerInformationDTO getCustomerById(String id)
+        {
+            CUSTOMER customer = Db.Queryable<CUSTOMER>().InSingle(id);
+            if (customer != null)
+            {
+                return convertCustomerToDto(customer);
+            }
+            return null;
+        }
+        public CustomerInformationDTO convertCustomerToDto(CUSTOMER customer){
+            CustomerInformationDTO customerInformation = new CustomerInformationDTO();
+            customerInformation._id = customer.CUSTOMER_ID;
+            customerInformation._name = customer.NAME;
+            customerInformation._phone = customer.PHONE;
+            customerInformation._bouns_point = customer.BONUS_POINT;
+            customerInformation._sign_date = customer.SIGN_DATE;
+            return customerInformation;
+        }
+
 
         public List<CUSTOMER> getCustomerInformationByName(string name)
         {
