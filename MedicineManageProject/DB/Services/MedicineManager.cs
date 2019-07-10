@@ -205,6 +205,8 @@ namespace MedicineManageProject.DB.Services
                 medicine._medicine_applicability = e.MEDICINE_APPLICABILITY;
                 medicine._medicine_usage = e.MEDICINE_USAGE;
                 medicine._medicine_attention = e.MEDICINE_ATTENTION;
+                medicine._supplier_id = e.SUPPLIER_ID;
+                medicine._medicine_image = e.MEDICINE_IMAGE;
                 medicine._max_purchase_price = Db.Queryable<MEDICINE_INSTANCE>().Where(it => it.MEDICINE_ID == e.MEDICINE_ID).Max(it => it.SALE_PRICE);
                 medicine._min_purchase_price = Db.Queryable<MEDICINE_INSTANCE>().Where(it => it.MEDICINE_ID == e.MEDICINE_ID).Min(it => it.SALE_PRICE);
                 medicineSearchResults.Add(medicine);
