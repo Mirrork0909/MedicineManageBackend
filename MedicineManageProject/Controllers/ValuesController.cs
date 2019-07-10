@@ -12,7 +12,7 @@ namespace MedicineManageProject.Controllers
     {
 
         /// <summary>
-        /// 获取全部
+        /// Value接口用于后端测试，前端别用
         /// </summary>
         /// <returns></returns>
         // GET api/values
