@@ -10,6 +10,11 @@ namespace MedicineManageProject.DB.Services
 {
     public class FeedbackManager : DBContext
     {
+        /// <summary>
+        /// 发送一个反馈
+        /// </summary>
+        /// <param name="feedBackDTO"></param>
+        /// <returns></returns>
         public bool insertOneFeedBack(FeedbackDTO feedBackDTO)
         {
             try
@@ -30,6 +35,10 @@ namespace MedicineManageProject.DB.Services
             }
         }
 
+        /// <summary>
+        /// 获得所有反馈信息
+        /// </summary>
+        /// <returns></returns>
         public List<FeedbackDTO> getAllFeedBack()
         {
             try

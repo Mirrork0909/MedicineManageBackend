@@ -13,6 +13,10 @@ namespace MedicineManageProject.Controllers
     [ApiController]
     public class StockRecordController : ControllerBase
     {
+        /// <summary>
+        /// 入库记录获取
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("in")]
         public IActionResult getAllStockInRecords()
         {
@@ -21,6 +25,10 @@ namespace MedicineManageProject.Controllers
             return Ok(JsonCreate.newInstance(ConstMessage.GET_SUCCESS, result));
         }
 
+        /// <summary>
+        /// 出库记录获取
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("out")]
         public IActionResult getAllStockOutRecords()
         {

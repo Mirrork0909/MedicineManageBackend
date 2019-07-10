@@ -35,6 +35,11 @@ namespace MedicineManageProject.Controllers
             }
         }
 
+        /// <summary>
+        /// 购买操作
+        /// </summary>
+        /// <param name="purchaseDTO"></param>
+        /// <returns></returns>
         [HttpPost("purchase")]
         public IActionResult purchase(PurchaseDTO purchaseDTO)
         {
@@ -58,12 +63,37 @@ namespace MedicineManageProject.Controllers
             return Ok(JsonCreate.newInstance(ConstMessage.GET_SUCCESS, result));
         }
 
+        /// <summary>
+        /// 根据销售编号获取全部子项信息
+        /// </summary>
+        /// <param name="saleId"></param>
+        /// <returns></returns>
        [HttpGet("records/{saleId}")]
        public IActionResult getSaleItemFromOneRecord(Decimal saleId)
         {
             SalesManager salesManager = new SalesManager();
             object result = salesManager.getAllOrderItemOfOneSaleInfo(saleId);
             return Ok(JsonCreate.newInstance(ConstMessage.GET_SUCCESS, result));
+        }
+
+        /// <summary>
+        /// 进行退货操作
+        /// </summary>
+        /// <param name="saleId"></param>
+        /// <returns></returns>
+        [HttpPost("backRecords/{saleId}")]
+        public IActionResult backOrderRecords(Decimal saleId)
+        {
+            SalesManager salesManager = new SalesManager();
+            bool result = salesManager.backRecords(saleId);
+            if (result)
+            {
+                return Ok(JsonCreate.newInstance(ConstMessage.INSERT_SUCCESS, result));
+            }
+            else
+            {
+                return Conflict(JsonCreate.newInstance(ConstMessage.CONFILICT, result));
+            }
         }
 
         [HttpGet("all/medicine/salesRecord")]

@@ -14,6 +14,10 @@ namespace MedicineManageProject.Controllers
     [ApiController]
     public class FeedbackController : ControllerBase
     {
+        /// <summary>
+        /// 获得所有反馈信息
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("all")]
         public IActionResult getAllFeedBacks()
         {
@@ -23,6 +27,11 @@ namespace MedicineManageProject.Controllers
             return Ok(JsonCreate.newInstance(ConstMessage.GET_SUCCESS, result));
         }
 
+        /// <summary>
+        /// 发送一条反馈
+        /// </summary>
+        /// <param name="feedback"></param>
+        /// <returns></returns>
         [HttpPost("insertFeedback")]
         public IActionResult insertNewFeedback([FromForm] FeedbackDTO feedback)
         {
