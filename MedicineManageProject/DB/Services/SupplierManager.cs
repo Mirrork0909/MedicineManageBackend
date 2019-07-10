@@ -117,5 +117,18 @@ namespace MedicineManageProject.DB.Services
             }
         }
 
+        public int getSupplierIdByName(string name)
+        {
+            SUPPLIER s = Db.Queryable<SUPPLIER>().Where(it => it.NAME == name).First();
+            if (s != null)
+            {
+                return s.SUPPLIER_ID;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
     }
 }

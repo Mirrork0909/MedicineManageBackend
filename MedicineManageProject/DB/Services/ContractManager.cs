@@ -92,6 +92,10 @@ namespace MedicineManageProject.DB.Services
                         Db.Insertable(contractItem).ExecuteCommand();
                     }
                 }
+                else
+                {
+                    throw new Exception();
+                }
                 Db.Ado.CommitTran();
                 contractDTO._contract_id = id;
                 return contractDTO;

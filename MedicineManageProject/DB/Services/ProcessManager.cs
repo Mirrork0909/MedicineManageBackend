@@ -28,8 +28,7 @@ namespace MedicineManageProject.DB.Services
 
                 if(tempResult.AMOUNT < processDTO._num)
                 {
-                    Db.Ado.RollbackTran();
-                    return false;
+                    throw new Exception();
                 }
 
                 PROBLEM_MEDICINE_RETURN problemMedicineReturn = new PROBLEM_MEDICINE_RETURN

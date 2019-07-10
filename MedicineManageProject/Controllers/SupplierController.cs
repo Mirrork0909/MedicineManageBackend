@@ -115,6 +115,25 @@ namespace MedicineManageProject.Controllers
                 return Ok(new JsonCreate() { message = Utils.ConstMessage.UPDATE_FAIL, data = null });
             }
         }
+        /// <summary>
+        /// 根据供应商名字得到ID
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [HttpGet("{name}")]
+        public IActionResult getSupplierIdByName(String name)
+        {
+            SupplierManager supplierManager = new SupplierManager();
+            int flag = supplierManager.getSupplierIdByName(name);
+            if (flag != -1)
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.GET_SUCCESS, data = flag });
+            }
+            else
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.NOT_FOUND, data = false });
+            }
+        }
 
 
     }

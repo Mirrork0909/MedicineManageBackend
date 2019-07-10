@@ -14,6 +14,10 @@ namespace MedicineManageProject.Controllers
     [ApiController]
     public class DiscountController : ControllerBase
     {
+        /// <summary>
+        /// 获得所有折扣信息
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("all")]
         public IActionResult getDiscountAll()
         {
@@ -22,6 +26,11 @@ namespace MedicineManageProject.Controllers
             return Ok(new JsonCreate() { message = Utils.ConstMessage.GET_SUCCESS, data = discountDTOs });
         }
 
+        /// <summary>
+        /// 获得某个药品的折扣信息(不分批号)
+        /// </summary>
+        /// <param name="medicineId"></param>
+        /// <returns></returns>
         [HttpGet("{medicineId}")]
         public IActionResult getDiscountById(String medicineId)
         {
@@ -30,6 +39,11 @@ namespace MedicineManageProject.Controllers
             return Ok(new JsonCreate() { message = Utils.ConstMessage.GET_SUCCESS, data = discountDTOs });
         }
         
+        /// <summary>
+        /// 设置折扣信息
+        /// </summary>
+        /// <param name="discountDTO"></param>
+        /// <returns></returns>
         [HttpPost("setDiscount")]
         public IActionResult setDiscount([FromForm] DiscountDTO discountDTO)
         {
