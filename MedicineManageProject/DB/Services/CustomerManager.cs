@@ -114,5 +114,51 @@ namespace MedicineManageProject.DB.Services
             }
         }
 
+        public bool resetCustomerPassword(String id, String password)
+        {
+            CUSTOMER customer = Db.Queryable<CUSTOMER>().InSingle(id);
+            if (customer != null)
+            {
+                customer.PASSWORD = Md5.getMd5Hash(password);
+                Db.Updateable(customer).ExecuteCommand();
+                CUSTOMER _updatedCustomer = Db.Queryable<CUSTOMER>().InSingle(id);
+                if (_updatedCustomer.PASSWORD == Md5.getMd5Hash(password))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool resetCustomerInformation(String id, String name, String phone)
+        {
+            CUSTOMER customer = Db.Queryable<CUSTOMER>().InSingle(id);
+            if (customer != null)
+            {
+                customer.NAME = name;
+                customer.PHONE = phone;
+                Db.Updateable(customer).ExecuteCommand();
+                CUSTOMER updatedCustomer = Db.Queryable<CUSTOMER>().InSingle(id);
+                if (updatedCustomer.NAME == name && updatedCustomer.PHONE == phone)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }
