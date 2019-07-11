@@ -70,5 +70,38 @@ namespace MedicineManageProject.Controllers
             return Ok(new JsonCreate() { message = result,data = customerInformation});
         }
 
+        /// <summary>
+        /// 更新顾客信息
+        /// </summary>
+        /// <param name="newCustomerInformaiton"></param>
+        /// <returns></returns>
+        [HttpPost("update/information")]
+        public IActionResult updateStaffInformation([FromForm] CustomerInformationDTO newCustomerInformaiton)
+        {
+            CustomerManager customerManager = new CustomerManager();
+            bool isSuccess = customerManager.resetCustomerInformation(newCustomerInformaiton._id,
+                newCustomerInformaiton._name, newCustomerInformaiton._phone);
+            JsonCreate jsonResult = new JsonCreate();
+            jsonResult.message = isSuccess ? ConstMessage.UPDATE_SUCCESS : ConstMessage.UPDATE_FAIL;
+            CustomerInformationDTO customerInformation = customerManager.getCustomerById(newCustomerInformaiton._id);
+            jsonResult.data = customerInformation;
+            return Ok(jsonResult);
+        }
+        /// <summary>
+        /// 修改顾客密码
+        /// </summary>
+        /// <param name="customer"></param>
+        /// <returns></returns>
+        [HttpPost("update/password")]
+        public IActionResult updatePassword([FromForm]CustomerInformationDTO customer)
+        {
+            CustomerManager customerManager = new CustomerManager();
+            bool isSuccess = customerManager.resetCustomerPassword(customer._id, customer._password);
+            JsonCreate jsonResult = new JsonCreate();
+            jsonResult.message = isSuccess ? ConstMessage.UPDATE_SUCCESS : ConstMessage.UPDATE_FAIL;
+            jsonResult.data = isSuccess;
+            return Ok(jsonResult);
+        }
+
     }
 }
