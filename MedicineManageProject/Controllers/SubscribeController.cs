@@ -58,7 +58,7 @@ namespace MedicineManageProject.Controllers
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        [HttpGet("")]
+        [HttpPost("")]
         public IActionResult hasSubscribed([FromForm]SubscribeDTO s)
         {
             SubscribeManager subscribeManager = new SubscribeManager();
