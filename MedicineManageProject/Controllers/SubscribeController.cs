@@ -34,7 +34,7 @@ namespace MedicineManageProject.Controllers
         }
 
         /// <summary>
-        /// 得到某个顾客的订阅
+        /// 得到某个顾客的所有订阅
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -50,6 +50,26 @@ namespace MedicineManageProject.Controllers
             else
             {
                 return Conflict(new JsonCreate() { message = Utils.ConstMessage.NOT_FOUND, data = flag });
+            }
+        }
+
+        /// <summary>
+        /// 某个用户是否订阅某个药品
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        [HttpGet("")]
+        public IActionResult hasSubscribed([FromForm]SubscribeDTO s)
+        {
+            SubscribeManager subscribeManager = new SubscribeManager();
+            var flag = subscribeManager.hasSubscribed(s);
+            if (flag ==true)
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.GET_SUCCESS, data = true });
+            }
+            else
+            {
+                return Conflict(new JsonCreate() { message = Utils.ConstMessage.NOT_FOUND, data = false });
             }
         }
 
