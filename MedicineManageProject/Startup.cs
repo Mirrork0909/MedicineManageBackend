@@ -35,10 +35,10 @@ namespace MedicineManageProject
                 c.SwaggerDoc("v1", new Info
                 {
                     Version = "v1.1.0",
-                    Title = "Ray WebAPI",
-                    Description = "框架集合",
+                    Title = "MedicineDB WebAPI",
+                    Description = "Backend API",
                     TermsOfService = "None",
-                    Contact = new Swashbuckle.AspNetCore.Swagger.Contact { Name = "RayWang", Email = "2271272653@qq.com", Url = "http://www.cnblogs.com/RayWang" }
+               //     Contact = new Swashbuckle.AspNetCore.Swagger.Contact { Name = "RayWang", Email = "2271272653@qq.com", Url = "http://www.cnblogs.com/RayWang" }
                 });
                 //添加注释服务
                 var basePath = PlatformServices.Default.Application.ApplicationBasePath;
