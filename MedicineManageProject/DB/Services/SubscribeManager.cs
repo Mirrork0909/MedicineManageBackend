@@ -56,5 +56,26 @@ namespace MedicineManageProject.DB.Services
             }
             
         }
+
+        public bool hasSubscribed(SubscribeDTO t)
+        {
+            try
+            {
+                var s = Db.Queryable<SUBSCRIBE>().Where(su=>su.CUSTOMER_ID==t._customer_id&&su.MEDICINE_ID==t._medicine_id).First();
+                if (s != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
     }
 }
