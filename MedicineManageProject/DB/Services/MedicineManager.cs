@@ -215,5 +215,39 @@ namespace MedicineManageProject.DB.Services
             return medicineSearchResults;
         }
 
+
+        public List<MedicineBySupplierDTO> getAllMedicineWithSupplier()
+        {
+            List<MedicineBySupplierDTO> list = Db.Queryable<MEDICINE_INFORMATION, SUPPLIER>((mi, s) => mi.SUPPLIER_ID == s.SUPPLIER_ID).Select((mi, s) => new MedicineBySupplierDTO
+            {
+                _medicine_applicability = mi.MEDICINE_APPLICABILITY,
+                _medicine_attention = mi.MEDICINE_ATTENTION,
+                _medicine_character=mi.MEDICINE_CHARACTER,
+                _medicine_id=mi.MEDICINE_ID,
+                _medicine_image=mi.MEDICINE_IMAGE,
+                _medicine_ingredients=mi.MEDICINE_INGREDIENTS,
+                _medicine_name=mi.MEDICINE_NAME,
+                _medicine_type=mi.MEDICINE_TYPE,
+                _medicine_usage=mi.MEDICINE_USAGE,
+                _name=s.NAME,
+                _supplier_id=s.SUPPLIER_ID,
+            }).ToList();
+            return list;
+        }
+
+        public List<MedicineInstanceDTO> getMedicineInstanceById(String m_id)
+        {
+            List<MedicineInstanceDTO> list = Db.Queryable<MEDICINE_INSTANCE>().Where((m) => m.MEDICINE_ID == m_id).Select((m)=> new MedicineInstanceDTO
+            {
+                _medicine_id=m.MEDICINE_ID,
+                _batch_id=m.BATCH_ID,
+                _production_date=m.PRODUCTION_DATE,
+                _purchase_price=m.PURCHASE_PRICE,
+                _sale_price=m.SALE_PRICE,
+                _validity_date=m.VALIDITY_DATE,
+            }).ToList();
+            return list;
+        }
+
     }
 }

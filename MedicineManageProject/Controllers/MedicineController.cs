@@ -104,5 +104,43 @@ namespace MedicineManageProject.Controllers
                 data = medicines
             });
         }
+        /// <summary>
+        /// 得到所有药品以及供应商名字信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("getAllMedicineWithSupplier")]
+        public IActionResult getAllMedicineWithSupplier()
+        {
+            MedicineManager medicineManager = new MedicineManager();
+            var r = medicineManager.getAllMedicineWithSupplier();
+            if (r != null && r.Count != 0)
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.GET_SUCCESS, data = r });
+            }
+            else
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.NOT_FOUND, data = null });
+            }
+        }
+
+        /// <summary>
+        /// 根据MedicineId去MEDICINE_INSTANCE表里找出符合条件的所有药
+        /// </summary>
+        /// <param name="mId"></param>
+        /// <returns></returns>
+        [HttpGet("getMedicineInstanceById/{mId}")]
+        public IActionResult getMedicineInstanceById(String mId)
+        {
+            MedicineManager medicineManager = new MedicineManager();
+            var r = medicineManager.getMedicineInstanceById(mId);
+            if (r != null && r.Count != 0)
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.GET_SUCCESS, data = r });
+            }
+            else
+            {
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.NOT_FOUND, data = null });
+            }
+        }
     }
 }
