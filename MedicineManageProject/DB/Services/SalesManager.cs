@@ -85,8 +85,16 @@ namespace MedicineManageProject.DB.Services
                 }
 
                 CUSTOMER customer = Db.Queryable<CUSTOMER>().Where(it => it.CUSTOMER_ID == purchaseDTO._customer_id).Single();
-                customer.BONUS_POINT = customer.BONUS_POINT + (int)totalPrice;
-                Db.Updateable(customer).ExecuteCommand();
+                if(customer != null)
+                {
+                    customer.BONUS_POINT = customer.BONUS_POINT + (int)totalPrice;
+                    Db.Updateable(customer).ExecuteCommand();
+                }
+                else
+                {
+                    purchaseDTO._customer_id = "10086_lk";
+                }
+                
 
                 SALE_RECORD saleRecord = new SALE_RECORD
                 {
