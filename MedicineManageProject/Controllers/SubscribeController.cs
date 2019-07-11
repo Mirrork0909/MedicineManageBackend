@@ -29,7 +29,7 @@ namespace MedicineManageProject.Controllers
             }
             else
             {
-                return Conflict(new JsonCreate() { message = Utils.ConstMessage.CONFILICT, data = false });
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.CONFILICT, data = false });
             }
         }
 
@@ -49,7 +49,7 @@ namespace MedicineManageProject.Controllers
             }
             else
             {
-                return Conflict(new JsonCreate() { message = Utils.ConstMessage.NOT_FOUND, data = flag });
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.NOT_FOUND, data = flag });
             }
         }
 
@@ -69,7 +69,7 @@ namespace MedicineManageProject.Controllers
             }
             else
             {
-                return Conflict(new JsonCreate() { message = Utils.ConstMessage.NOT_FOUND, data = false });
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.GET_SUCCESS, data = false });
             }
         }
 
@@ -90,7 +90,7 @@ namespace MedicineManageProject.Controllers
             }
             else
             {
-                return Conflict(new JsonCreate() { message = Utils.ConstMessage.UPDATE_FAIL, data = false });
+                return Ok(new JsonCreate() { message = Utils.ConstMessage.UPDATE_FAIL, data = false });
             }
         }
     }
