@@ -62,6 +62,21 @@ namespace MedicineManageProject.Controllers
                 return Conflict(new JsonCreate() { message = Utils.ConstMessage.CONFILICT, data = false });
             }
         }
+
+        [HttpDelete("deleteDiscount/{discountId}")]
+        public IActionResult deleteDiscount(int discountId)
+        {
+            DiscountManager discountManager = new DiscountManager();
+            bool judge = discountManager.deleteDiscount(discountId);
+            if (judge)
+            {
+                return Ok(JsonCreate.newInstance(Utils.ConstMessage.DELETE_SUCCESS, judge));
+            }
+            else
+            {
+                return Conflict(JsonCreate.newInstance(Utils.ConstMessage.DELETE_FAIL, judge));
+            }
+        }
     }
 
    

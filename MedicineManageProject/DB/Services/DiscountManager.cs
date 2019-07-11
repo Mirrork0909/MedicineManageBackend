@@ -118,5 +118,19 @@ namespace MedicineManageProject.DB.Services
             }
         }
 
+
+        public bool deleteDiscount(int discountId)
+        {
+            bool judge = Db.Queryable<DISCOUNT>().Where(it => it.DISCOUNT_ID == discountId).Any();
+            if (judge)
+            {
+                var result = Db.Deleteable<DISCOUNT>().In(discountId).ExecuteCommand();
+                if(result != 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
